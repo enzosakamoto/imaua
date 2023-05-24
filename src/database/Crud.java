@@ -105,8 +105,32 @@ public class Crud {
     }
 
     public ArrayList<Order> getAllOrdersByIdClient(String clientId) {
-        System.out.println("Getting all orders by client");
-        return new ArrayList<Order>();
+        String sqlGetClient = "SELECT * FROM orders WHERE (id_client = ?);";
+        Connection connection = Connector.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Order> orders = new ArrayList<Order>();
+        try {
+            stmt = connection.prepareStatement(sqlGetClient);
+            stmt.setString(1, clientId);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                do {
+                    Order order = new Order(rs.getInt("id_restaurant"), rs.getString("id_client"),
+                            rs.getString("meal"));
+                    order.setId(rs.getString("id"));
+                    order.setIsDone(rs.getString("isdone").equals("1") ? true : false);
+                    orders.add(order);
+                } while (rs.next());
+                return orders;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        } finally {
+            Connector.closeConn(connection, stmt);
+        }
+        return null;
     }
 
     public String getIdClientByName(String name) {
