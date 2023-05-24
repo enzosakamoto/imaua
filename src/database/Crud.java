@@ -2,6 +2,7 @@ package database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ public class Crud {
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
         try {
+            getErrorByName(client.getName());
             stmt = connection.prepareStatement(sqlCreateClient);
             stmt.setString(1, client.getId());
             stmt.setString(2, client.getName());
@@ -21,11 +23,13 @@ public class Crud {
             stmt.setString(4, String.valueOf(client.getCredits()));
             stmt.executeUpdate();
             System.out.println("Cliente incluído com sucesso!");
+            connection.commit();
         } catch (SQLException e) {
             try {
                 connection.rollback();
+                System.out.println(e.getMessage());
             } catch (SQLException ex) {
-                System.out.println("Erro ao incluir os dados do cliente no banco de dados: " + ex.toString());
+                System.out.println(ex.getMessage());
             }
         } finally {
             Connector.closeConn(connection, stmt);
@@ -45,18 +49,62 @@ public class Crud {
             stmt.setString(5, (order.getIsDone() ? "1" : "0"));
             stmt.executeUpdate();
             System.out.println("Pedido incluído com sucesso!");
+            connection.commit();
         } catch (SQLException e) {
             try {
                 connection.rollback();
+                System.out.println(e.getMessage());
             } catch (SQLException ex) {
-                System.out.println("Erro ao incluir os dados do pedido no banco de dados: " + ex.toString());
+                System.out.println(ex.getMessage());
             }
         } finally {
             Connector.closeConn(connection, stmt);
         }
     }
 
-    public ArrayList<Order> getAllOrdersByClient(String clientId) {
+    public String getIdClientByLogin(String name, String password) {
+        String sqlGetClient = "SELECT id FROM clients WHERE (name = ? and password = ?);";
+        Connection connection = Connector.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement(sqlGetClient);
+            stmt.setString(1, name);
+            stmt.setString(2, password);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("id");
+            }
+            return "null";
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return "null";
+        } finally {
+            Connector.closeConn(connection, stmt);
+        }
+    }
+
+    public void getErrorByName(String name) throws SQLException {
+        String sqlGetClient = "SELECT id FROM clients WHERE (name = ?);";
+        Connection connection = Connector.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement(sqlGetClient);
+            stmt.setString(1, name);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (rs.getString("id") != null)
+                    throw new SQLException("Cliente já cadastrado!");
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            Connector.closeConn(connection, stmt);
+        }
+    }
+
+    public ArrayList<Order> getAllOrdersByIdClient(String clientId) {
         System.out.println("Getting all orders by client");
         return new ArrayList<Order>();
     }
@@ -68,6 +116,29 @@ public class Crud {
 
     public void updateOrder(String orderId) {
         System.out.println("Order updated");
+    }
+
+    public void updateClientCredits(String clientId, double credits) {
+        String sqlUpdateClient = "UPDATE clients SET credits = ? WHERE id = ?;";
+        Connection connection = Connector.getConn();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(sqlUpdateClient);
+            stmt.setDouble(1, credits);
+            stmt.setString(2, clientId);
+            stmt.executeUpdate();
+            System.out.println("Créditos atualizados com sucesso!");
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                System.out.println(e.getMessage());
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } finally {
+            Connector.closeConn(connection, stmt);
+        }
     }
 
     public void deleteClient(String clientId) {
