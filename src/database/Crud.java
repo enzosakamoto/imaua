@@ -133,12 +133,7 @@ public class Crud {
         return null;
     }
 
-    public String getIdClientByName(String name) {
-        System.out.println("Getting id client by name");
-        return "id_client";
-    }
-
-    public void updateOrder(String orderId) {
+    public void updateStatusOrderByOrderId(String orderId) {
         System.out.println("Order updated");
     }
 
@@ -163,9 +158,5 @@ public class Crud {
         } finally {
             Connector.closeConn(connection, stmt);
         }
-    }
-
-    public void deleteClient(String clientId) {
-        System.out.println("Client deleted");
     }
 }
