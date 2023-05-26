@@ -134,7 +134,7 @@ public class Crud {
         return null;
     }
 
-    public void updateStatusOrderByOrderId(String orderId) {
+    public void updateStatusOrderByOrderId(String orderId, boolean isDone) {
         System.out.println("Order updated");
     }
 
