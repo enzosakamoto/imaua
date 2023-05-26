@@ -10,7 +10,7 @@ import shared.domain.entities.Client;
 import shared.domain.entities.Order;
 
 public class Crud {
-    public void createClient(Client client) {
+    public void createClient(Client client) throws SQLException {
         String sqlCreateClient = "INSERT INTO clients VALUES (?, ?, ?, ?);";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
@@ -28,9 +28,11 @@ public class Crud {
             try {
                 connection.rollback();
                 System.out.println(e.getMessage());
+
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
+            throw new SQLException("Usuário já existe!");
         } finally {
             Connector.closeConn(connection, stmt);
         }
@@ -63,7 +65,7 @@ public class Crud {
         }
     }
 
-    public String getIdClientByLogin(String name, String password) {
+    public String getIdClientByLogin(String name, String password) throws SQLException {
         String sqlGetClient = "SELECT id FROM clients WHERE (name = ? and password = ?);";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
@@ -76,10 +78,10 @@ public class Crud {
             if (rs.next()) {
                 return rs.getString("id");
             }
-            return "null";
+            throw new SQLException();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            return "null";
+            throw new SQLException("Usuário não encontrado!");
         } finally {
             Connector.closeConn(connection, stmt);
         }
@@ -105,7 +107,30 @@ public class Crud {
         }
     }
 
-    public ArrayList<Order> getAllOrdersByIdClient(String clientId) {
+    public Client getClientByIdClient(String IdClient) {
+        String sqlGetClient = "SELECT * FROM clients WHERE (id = ?);";
+        Connection connection = Connector.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement(sqlGetClient);
+            stmt.setString(1, IdClient);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Client client = new Client(IdClient, rs.getString("name"), rs.getString("password"),
+                        Double.parseDouble(rs.getString("credits")));
+                return client;
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        } finally {
+            Connector.closeConn(connection, stmt);
+        }
+        return null;
+    }
+
+    public ArrayList<Order> getAllOrdersByIdClient(String IdClient) {
         String sqlGetClient = "SELECT * FROM orders WHERE (id_client = ?);";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
@@ -113,7 +138,7 @@ public class Crud {
         ArrayList<Order> orders = new ArrayList<Order>();
         try {
             stmt = connection.prepareStatement(sqlGetClient);
-            stmt.setString(1, clientId);
+            stmt.setString(1, IdClient);
             rs = stmt.executeQuery();
             if (rs.next()) {
                 do {
