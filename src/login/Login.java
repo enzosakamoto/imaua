@@ -80,14 +80,19 @@ public class Login extends JFrame implements ActionListener {
             String password = this.password.getText();
 
             Client client = new Client(username, password);
-
-            try {
-                crud.createClient(client);
-                JOptionPane.showMessageDialog(null, "Usuário criado com sucesso!", "Sucesso!",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } catch (SQLException error) {
-                JOptionPane.showMessageDialog(null, error.getMessage(),
-                        "Erro!", JOptionPane.ERROR_MESSAGE);
+            if (username.equals("") || password.equals("") || username.length() < 3) {
+                JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos!", "Erro!",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            } else {
+                try {
+                    crud.createClient(client);
+                    JOptionPane.showMessageDialog(null, "Usuário criado com sucesso!", "Sucesso!",
+                            JOptionPane.INFORMATION_MESSAGE);
+                } catch (SQLException error) {
+                    JOptionPane.showMessageDialog(null, error.getMessage(),
+                            "Erro!", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 

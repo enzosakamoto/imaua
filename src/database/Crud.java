@@ -80,7 +80,6 @@ public class Crud {
             }
             throw new SQLException();
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
             throw new SQLException("Usuário não encontrado!");
         } finally {
             Connector.closeConn(connection, stmt);
@@ -148,15 +147,14 @@ public class Crud {
                     order.setIsDone(rs.getString("isdone").equals("1") ? true : false);
                     orders.add(order);
                 } while (rs.next());
-                return orders;
             }
+            return orders;
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            return null;
+            return orders;
         } finally {
             Connector.closeConn(connection, stmt);
         }
-        return null;
     }
 
     public void updateStatusOrderByOrderId(String orderId, boolean isDone) {
