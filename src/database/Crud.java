@@ -37,18 +37,19 @@ public class Crud {
     }
 
     public void createOrder(Order order) {
-        String sqlCreateOrder = "INSERT INTO orders VALUES (?, ?, ?, ?, ?);";
+        String sqlCreateOrder = "INSERT INTO orders VALUES (?, ?, ?, ?, ?, ?);";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
         try {
             stmt = connection.prepareStatement(sqlCreateOrder);
             stmt.setString(1, order.getId());
-            stmt.setString(2, Integer.toString(order.getIdRestaurant()));
-            stmt.setString(3, order.getIdClient());
-            stmt.setString(4, order.getMeal());
-            stmt.setString(5, (order.getIsDone() ? "1" : "0"));
+            stmt.setString(2, order.getIdClient());
+            stmt.setString(3, order.getDate());
+            stmt.setInt(4, order.getIdRestaurant());
+            stmt.setString(5, order.getMeal());
+            stmt.setBoolean(6, order.getIsDone());
             stmt.executeUpdate();
-            System.out.println("Pedido incluído com sucesso!");
+            System.out.println("Pedido criado com sucesso!");
             connection.commit();
         } catch (SQLException e) {
             try {
