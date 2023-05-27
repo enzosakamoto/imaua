@@ -75,9 +75,11 @@ public class Order {
         LocalDateTime dataHoraAtual = LocalDateTime.now();
 
         // Definir o formato desejado
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm:ss");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yy HH:mm");
+
+        String dataFormatada = dataHoraAtual.format(formato);
 
         // Formatando a data e hora
-        return dataHoraAtual.format(formato);
+        return dataFormatada;
     }
 }

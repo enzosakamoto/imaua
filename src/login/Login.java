@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import database.Crud;
+import database.Repository;
 import home.Home;
 import shared.domain.entities.Client;
 
@@ -26,7 +26,7 @@ public class Login extends JFrame implements ActionListener {
     private JLabel password_label;
     private JButton login;
     private JButton register;
-    Crud crud = new Crud();
+    Repository repository = new Repository();
 
     public Login() {
         super("Login");
@@ -86,7 +86,7 @@ public class Login extends JFrame implements ActionListener {
                 return;
             } else {
                 try {
-                    crud.createClient(client);
+                    repository.createClient(client);
                     JOptionPane.showMessageDialog(null, "Usuário criado com sucesso!", "Sucesso!",
                             JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException error) {
@@ -103,10 +103,10 @@ public class Login extends JFrame implements ActionListener {
             String id = "";
 
             try {
-                id = crud.getIdClientByLogin(username, password);
+                id = repository.getIdClientByLogin(username, password);
                 JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso!",
                         JOptionPane.INFORMATION_MESSAGE);
-                Client client = crud.getClientByIdClient(id);
+                Client client = repository.getClientByIdClient(id);
                 Home home_interface = new Home(client);
                 home_interface.setVisible(true);
                 this.setVisible(false);

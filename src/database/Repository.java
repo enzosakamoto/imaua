@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import shared.domain.entities.Client;
 import shared.domain.entities.Order;
 
-public class Crud {
+public class Repository {
+
     public void createClient(Client client) throws SQLException {
         String sqlCreateClient = "INSERT INTO clients VALUES (?, ?, ?, ?);";
         Connection connection = Connector.getConn();
@@ -145,6 +146,7 @@ public class Crud {
                             rs.getString("meal"));
                     order.setId(rs.getString("id"));
                     order.setIsDone(rs.getString("isdone").equals("1") ? true : false);
+                    order.setDate(rs.getString("date"));
                     orders.add(order);
                 } while (rs.next());
             }

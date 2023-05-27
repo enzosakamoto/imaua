@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import database.Crud;
+import database.Repository;
 import orders.Orders;
 import shared.domain.entities.Client;
 import shared.domain.entities.Order;
@@ -27,7 +27,7 @@ public class Home extends JFrame implements ActionListener {
     JButton restaurant_biba;
     JButton restaurant_techfood;
     Client client;
-    Crud crud = new Crud();
+    Repository crud = new Repository();
 
     public Home(Client client) {
         super("Home");
