@@ -1,16 +1,8 @@
 
-import database.Crud;
-import shared.domain.entities.Client;
-import shared.domain.entities.Order;
+import start.Start;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Crud crud = new Crud();
-        Client client = new Client("matue", "123");
-        crud.createClient(client);
-        String id_client = client.getId();
-
-        Order order = new Order(1, id_client, "Hamburguer");
-        crud.createOrder(order);
+        Start start_interface = new Start();
     }
 }

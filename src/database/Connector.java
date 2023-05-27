@@ -16,7 +16,9 @@ public class Connector {
     public static Connection getConn() {
         try {
             Class.forName(DRIVER);
-            return DriverManager.getConnection(URL, USER, PASS);
+            Connection connection = DriverManager.getConnection(URL, USER, PASS);
+            connection.setAutoCommit(false);
+            return connection;
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(ERROBD + e);
         }

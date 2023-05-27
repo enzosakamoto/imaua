@@ -15,6 +15,20 @@ public class Client {
         this.credits = 0;
     }
 
+    public Client(String id, String name, String password, double credits) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.credits = credits;
+    }
+
+    public Client() {
+        this.id = "";
+        this.name = "";
+        this.password = "";
+        this.credits = 0;
+    }
+
     public String getId() {
         return id;
     }
