@@ -14,25 +14,28 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import database.Repository;
+import funds.Funds;
 import orders.Orders;
+import restaurants.RestaurantPage;
 import shared.domain.entities.Client;
 import shared.domain.entities.Order;
 import start.Start;
 
 public class Home extends JFrame implements ActionListener {
     JLabel home_title;
+    JButton add_credits;
     JButton orders;
     JButton logoff;
     JButton restaurant_moleza;
     JButton restaurant_biba;
     JButton restaurant_techfood;
     Client client;
-    Repository crud = new Repository();
+    Repository repository = new Repository();
 
     public Home(Client client) {
         super("Home");
         this.client = client;
-        setSize(800, 500);
+        setSize(900, 500);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -47,6 +50,8 @@ public class Home extends JFrame implements ActionListener {
 
         home_title = new JLabel("Bem-vindo, " + client.getName() + "!");
         home_title.setFont(font);
+        add_credits = new JButton("Adicionar créditos");
+        add_credits.setFont(font);
         orders = new JButton("Pedidos");
         orders.setFont(font);
         logoff = new JButton("Logoff");
@@ -60,6 +65,7 @@ public class Home extends JFrame implements ActionListener {
         restaurant_techfood.setFont(font);
 
         header.add(home_title);
+        header.add(add_credits);
         header.add(orders);
         header.add(logoff);
 
@@ -73,6 +79,7 @@ public class Home extends JFrame implements ActionListener {
         setVisible(false);
 
         logoff.addActionListener(this);
+        add_credits.addActionListener(this);
         orders.addActionListener(this);
         restaurant_moleza.addActionListener(this);
         restaurant_biba.addActionListener(this);
@@ -88,16 +95,35 @@ public class Home extends JFrame implements ActionListener {
             start.setVisible(true);
         }
 
+        if (e.getSource() == add_credits) {
+            Funds add_credits = new Funds(this.client.getId());
+            add_credits.setVisible(true);
+        }
+
         if (e.getSource() == orders) {
-            ArrayList<Order> orders_array = crud.getAllOrdersByIdClient(client.getId());
+            ArrayList<Order> orders_array = repository.getAllOrdersByIdClient(client.getId());
             Orders orders = new Orders(orders_array);
             orders.setVisible(true);
         }
 
         if (e.getSource() == restaurant_moleza) {
-            System.out.println(client.getId());
-            System.out.println(client.getName());
+            Client client = repository.getClientByIdClient(this.client.getId());
+            RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_moleza, client);
+            restaurant_page.setVisible(true);
         }
+
+        if (e.getSource() == restaurant_biba) {
+            Client client = repository.getClientByIdClient(this.client.getId());
+            RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_biba, client);
+            restaurant_page.setVisible(true);
+        }
+
+        if (e.getSource() == restaurant_techfood) {
+            Client client = repository.getClientByIdClient(this.client.getId());
+            RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_techfood, client);
+            restaurant_page.setVisible(true);
+        }
+
     }
 
 }

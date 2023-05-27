@@ -8,8 +8,25 @@ import java.util.ArrayList;
 
 import shared.domain.entities.Client;
 import shared.domain.entities.Order;
+import shared.domain.entities.Restaurant;
 
 public class Repository {
+    public Restaurant restaurant_moleza = new Restaurant(1, "Restaurant Moleza");
+    public Restaurant restaurant_biba = new Restaurant(2, "Restaurant Biba");
+    public Restaurant restaurant_techfood = new Restaurant(3, "Restaurant TechFood");
+
+    public Repository() {
+        this.restaurant_moleza.setMenu(new String[] { "Beirute de frango", "Açaí", "Coxinha congelada", "Salgados" });
+        this.restaurant_moleza.setPrices(new double[] { 23.0, 10.0, 15.0, 8.0 });
+
+        this.restaurant_biba
+                .setMenu(new String[] { "Coxinha", "Café expresso caro", "Baguete de carne com catupiry", "Salada" });
+        this.restaurant_biba.setPrices(new double[] { 8.0, 6.0, 8.0, 24.0 });
+
+        this.restaurant_techfood
+                .setMenu(new String[] { "Yopro caro", "Marmitex", "Salgados", "Barrinha Integral Médica" });
+        this.restaurant_techfood.setPrices(new double[] { 12.0, 22.0, 5.0, 10.0 });
+    }
 
     public void createClient(Client client) throws SQLException {
         String sqlCreateClient = "INSERT INTO clients VALUES (?, ?, ?, ?);";
@@ -163,7 +180,7 @@ public class Repository {
         System.out.println("Order updated");
     }
 
-    public void updateClientCredits(String clientId, double credits) {
+    public void updateClientCreditsByIdClient(String clientId, double credits) {
         String sqlUpdateClient = "UPDATE clients SET credits = ? WHERE id = ?;";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;

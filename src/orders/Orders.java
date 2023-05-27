@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,7 +24,8 @@ public class Orders extends JFrame implements ActionListener {
     public Orders(ArrayList<Order> orders) {
         super("Pedidos");
         this.orders = orders;
-        setSize(800, 400);
+        Collections.sort(this.orders, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+        setSize(850, (!orders.isEmpty() ? orders.size() * 150 : 500));
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -72,7 +74,7 @@ public class Orders extends JFrame implements ActionListener {
                 restaurant.setFont(font);
                 JLabel meal = new JLabel(orders.get(i).getMeal());
                 meal.setFont(font);
-                JLabel status = new JLabel(orders.get(i).getIsDone() ? "Pronto" : "Em andamento");
+                JLabel status = new JLabel(orders.get(i).getIsDone() ? "Pronto" : "Retire seu pedido");
                 status.setFont(font);
                 body.add(date);
                 body.add(restaurant);
