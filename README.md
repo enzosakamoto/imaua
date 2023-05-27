@@ -1,18 +1,24 @@
-## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+# iMauá 🥐😋🌯
 
-## Folder Structure
+Projeto semestral para o fechamento do 1º semestre da 3ª série do curso de Engenharia de Computação do Instituto Mauá de Tecnologia da disciplina Linguagens de Programação I.
 
-The workspace contains two folders by default, where:
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Objetivos 🥸
+O objetivo desse projeto era criar um programa em Java que fizesse conexão com banco de dados em MySQL com tema livre.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## Tema escolhido ✏️📋
+O tema escolhido foi desenvolver um sistema inspirado no IFood, que pudesse realizar e retirar pedidos dos restaurantes do IMT.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## Implementação 🧑‍🔬🧪🔬
+O sistema se baseia em um banco de dados de usuários e pedidos feitos. Cada usuário tem um login único e cada pedido de usuário está atrelado ao mesmo. A interface foi criado utilizando a próprio biblioteca do Java para criação de janelas.
+## Agradecimentos 🙏
+Obrigado aos professores Igor Cataneo Silveira e Robson Calvetti pelo lecionamento da disciplina e pelo apoio nas aulas.
 
-## Dependency Management
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Autores 🤯🤡🤫
+
+- [Enzo Sakamoto](https://www.github.com/enzosakamoto)
+- [Flavio Murata](https://github.com/flaviomurata)
+- [Heitor Mariano](https://github.com/HeitorMarian0)
+
