@@ -12,6 +12,28 @@ O tema escolhido foi desenvolver um sistema inspirado no IFood, que pudesse real
 
 ## Implementação 🧑‍🔬🧪🔬
 O sistema se baseia em um banco de dados de usuários e pedidos feitos. Cada usuário tem um login único e cada pedido de usuário está atrelado ao mesmo. A interface foi criado utilizando a próprio biblioteca do Java para criação de janelas.
+
+
+## Banco de dados
+
+Para rodar esse projeto, é necessário criar um banco de dados específico em MySQL. Os passos abaixo foram executados no Prompt do MySQL Command Line.
+
+###### 1º: Criar a database
+
+    create database imaua;
+
+###### 2º: Acessar a database
+
+    use imaua;
+
+###### 3º: Criar tabela de clientes
+
+    create table clients(id varchar(36) not null primary key, name varchar(100) not null, password varchar(100) not null, credits decimal(5, 2) unsigned not null);
+
+###### 4º: Criar tabela de pedidos
+
+    create table orders(id varchar(36) not null primary key, id_client varchar(36) not null, date varchar(18) not null, id_restaurant smallint unsigned not null, meal varchar(100) not null, isdone boolean not null, foreign key (id_client) references clients (id) on delete cascade on update cascade);
+
 ## Agradecimentos 🙏
 Obrigado aos professores Igor Cataneo Silveira e Robson Calvetti pelo lecionamento da disciplina e pelo apoio nas aulas.
 
