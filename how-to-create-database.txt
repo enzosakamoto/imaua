@@ -1,7 +1,0 @@
-create database imaua;
-
-use imaua;
-
-create table clients(id varchar(36) not null primary key, name varchar(100) not null, password varchar(100) not null, credits decimal(5, 2) unsigned not null);
-
-create table orders(id varchar(36) not null primary key, id_client varchar(36) not null, date varchar(18) not null, id_restaurant smallint unsigned not null, meal varchar(100) not null, isdone boolean not null, foreign key (id_client) references clients (id) on delete cascade on update cascade);
