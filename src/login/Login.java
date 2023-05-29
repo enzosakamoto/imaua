@@ -80,7 +80,7 @@ public class Login extends JFrame implements ActionListener {
             String password = this.password.getText();
 
             Client client = new Client(username, password);
-            if (username.equals("") || password.equals("") || username.length() < 3) {
+            if (username.equals("") || password.equals("") || username.length() < 3 || password.length() < 3) {
                 JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos!", "Erro!",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -99,6 +99,12 @@ public class Login extends JFrame implements ActionListener {
         if (e.getSource() == login) {
             String username = this.username.getText();
             String password = this.password.getText();
+
+            if (username.equals("") || password.equals("")) {
+                JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos!", "Erro!",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             String id = "";
 
