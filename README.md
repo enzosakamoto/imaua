@@ -13,8 +13,10 @@ O tema escolhido foi desenvolver um sistema inspirado no IFood, que pudesse real
 ## Implementação 🧑‍🔬🧪🔬
 O sistema se baseia em um banco de dados de usuários e pedidos feitos. Cada usuário tem um login único e cada pedido de usuário está atrelado ao mesmo. A interface foi criado utilizando a próprio biblioteca do Java para criação de janelas.
 
+## Diagrama para organização do banco de dados 😁
+![image](https://github.com/enzosakamoto/imaua/assets/98707474/55d1e551-72c6-463a-bd86-664f9e659d5c)
 
-## Banco de dados
+## Banco de dados 🪑🎲
 
 Para rodar esse projeto, é necessário criar um banco de dados específico em MySQL. Os passos abaixo foram executados no Prompt do MySQL Command Line.
 
