@@ -1,4 +1,4 @@
-package infra.repository;
+package shared.infra.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import infra.connector.Connector;
 import shared.entities.Client;
 import shared.entities.Meal;
 import shared.entities.Order;
 import shared.entities.Restaurant;
+import shared.infra.connector.Connector;
 
 public class Repository implements IRepository {
     public Restaurant restaurant_moleza = new Restaurant(1, "Restaurante Moleza");

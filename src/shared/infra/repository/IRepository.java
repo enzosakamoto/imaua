@@ -1,4 +1,4 @@
-package infra.repository;
+package shared.infra.repository;
 
 import java.util.ArrayList;
 

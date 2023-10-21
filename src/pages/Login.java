@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import infra.repository.Repository;
 import shared.entities.Client;
+import shared.infra.repository.Repository;
 
 public class Login extends JFrame implements ActionListener {
     private JTextField username;

@@ -20,9 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.border.Border;
 
-import infra.repository.Repository;
 import shared.entities.Client;
 import shared.entities.Order;
+import shared.infra.repository.Repository;
 
 public class Home extends JFrame implements ActionListener {
     private JLabel home_title;

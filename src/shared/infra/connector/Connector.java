@@ -1,4 +1,4 @@
-package infra.connector;
+package shared.infra.connector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

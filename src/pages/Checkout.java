@@ -13,9 +13,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import infra.repository.Repository;
 import shared.entities.Client;
 import shared.entities.Order;
+import shared.infra.repository.Repository;
 
 public class Checkout extends JFrame implements ActionListener {
     private JLabel checkout_title;

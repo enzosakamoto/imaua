@@ -12,8 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import infra.repository.Repository;
 import shared.entities.Client;
+import shared.infra.repository.Repository;
 
 public class Funds extends JFrame implements ActionListener {
     private JLabel funds;
