@@ -1,4 +1,4 @@
-package restaurants;
+package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -7,29 +7,26 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import checkout.Checkout;
-import shared.domain.entities.Client;
-import shared.domain.entities.Restaurant;
+import shared.entities.Restaurant;
 
 public class RestaurantPage extends JFrame implements ActionListener {
-    JLabel restaurant_title;
-    JLabel menu;
-    JButton back;
-    JButton meal_1;
-    JButton meal_2;
-    JButton meal_3;
-    JButton meal_4;
-    Client client;
-    public Restaurant restaurant;
+    private JLabel restaurant_title;
+    private JLabel menu;
+    private JButton back;
+    private JButton meal_1;
+    private JButton meal_2;
+    private JButton meal_3;
+    private JButton meal_4;
+    Restaurant restaurant;
 
-    public RestaurantPage(Restaurant restaurant, Client client) {
+    public RestaurantPage(Restaurant restaurant) {
         super(restaurant.getName());
-        this.client = client;
         this.restaurant = restaurant;
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +38,9 @@ public class RestaurantPage extends JFrame implements ActionListener {
         Font font = new Font("Arial", Font.PLAIN, 22);
 
         JPanel header = new JPanel(new GridLayout(2, 2));
-        JPanel body = new JPanel(new GridLayout(restaurant.getMenu().length, 1));
+        header.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        JPanel body = new JPanel(new GridLayout(restaurant.getMenu().size(), 1));
+        body.setBorder(BorderFactory.createEmptyBorder(0, 25, 25, 25));
 
         restaurant_title = new JLabel(restaurant.getName());
         restaurant_title.setFont(font);
@@ -54,10 +53,10 @@ public class RestaurantPage extends JFrame implements ActionListener {
         header.add(back);
         header.add(menu);
 
-        meal_1 = new JButton(restaurant.getMenu()[0] + " - R$ " + restaurant.getPrices()[0]);
-        meal_2 = new JButton(restaurant.getMenu()[1] + " - R$ " + restaurant.getPrices()[1]);
-        meal_3 = new JButton(restaurant.getMenu()[2] + " - R$ " + restaurant.getPrices()[2]);
-        meal_4 = new JButton(restaurant.getMenu()[3] + " - R$ " + restaurant.getPrices()[3]);
+        meal_1 = new JButton(restaurant.getMenu().get(0).getName() + " - R$ " + restaurant.getMenu().get(0).getPrice());
+        meal_2 = new JButton(restaurant.getMenu().get(1).getName() + " - R$ " + restaurant.getMenu().get(1).getPrice());
+        meal_3 = new JButton(restaurant.getMenu().get(2).getName() + " - R$ " + restaurant.getMenu().get(2).getPrice());
+        meal_4 = new JButton(restaurant.getMenu().get(3).getName() + " - R$ " + restaurant.getMenu().get(3).getPrice());
 
         meal_1.setFont(font);
         meal_2.setFont(font);
@@ -89,22 +88,26 @@ public class RestaurantPage extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == meal_1) {
-            Checkout checkout = new Checkout(client, restaurant.getMenu()[0], restaurant.getPrices()[0], this);
+            Checkout checkout = new Checkout(restaurant.getMenu().get(0).getName(),
+                    restaurant.getMenu().get(0).getPrice(), this);
             checkout.setVisible(true);
         }
 
         if (e.getSource() == meal_2) {
-            Checkout checkout = new Checkout(client, restaurant.getMenu()[1], restaurant.getPrices()[1], this);
+            Checkout checkout = new Checkout(restaurant.getMenu().get(1).getName(),
+                    restaurant.getMenu().get(1).getPrice(), this);
             checkout.setVisible(true);
         }
 
         if (e.getSource() == meal_3) {
-            Checkout checkout = new Checkout(client, restaurant.getMenu()[2], restaurant.getPrices()[2], this);
+            Checkout checkout = new Checkout(restaurant.getMenu().get(2).getName(),
+                    restaurant.getMenu().get(2).getPrice(), this);
             checkout.setVisible(true);
         }
 
         if (e.getSource() == meal_4) {
-            Checkout checkout = new Checkout(client, restaurant.getMenu()[3], restaurant.getPrices()[3], this);
+            Checkout checkout = new Checkout(restaurant.getMenu().get(3).getName(),
+                    restaurant.getMenu().get(3).getPrice(), this);
             checkout.setVisible(true);
         }
     }

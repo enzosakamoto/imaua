@@ -1,10 +1,11 @@
-package shared.domain.entities;
+package shared.entities;
+
+import java.util.ArrayList;
 
 public class Restaurant {
     private int id;
     private String name;
-    private String[] menu = new String[4];
-    private double[] prices = new double[4];
+    private ArrayList<Meal> menu;
 
     public Restaurant(int id, String name) {
         this.id = id;
@@ -19,27 +20,19 @@ public class Restaurant {
         return name;
     }
 
-    public String[] getMenu() {
+    public ArrayList<Meal> getMenu() {
         return menu;
-    }
-
-    public double[] getPrices() {
-        return prices;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setMenu(String[] menu) {
+    public void setMenu(ArrayList<Meal> menu) {
         this.menu = menu;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPrices(double[] prices) {
-        this.prices = prices;
     }
 }

@@ -1,4 +1,4 @@
-package checkout;
+package pages;
 
 import java.awt.Container;
 import java.awt.Font;
@@ -6,34 +6,34 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-import database.Repository;
-import restaurants.RestaurantPage;
-import shared.domain.entities.Client;
-import shared.domain.entities.Order;
+import infra.repository.Repository;
+import shared.entities.Client;
+import shared.entities.Order;
 
 public class Checkout extends JFrame implements ActionListener {
+    private JLabel checkout_title;
+    private JLabel credits;
+    private JLabel meal;
+    private JLabel price;
+    private JLabel credits_remain;
+    private JLabel credits_remain_price;
+    private JButton confirm;
+    private JButton cancel;
+    private double price_value;
+    private String meal_text;
+    private Client client = Home.client;
     Repository repository = new Repository();
-    JLabel checkout_title;
-    JLabel credits;
-    JLabel meal;
-    JLabel price;
-    JLabel credits_remain;
-    JLabel credits_remain_price;
-    JButton confirm;
-    JButton cancel;
-    Client client;
-    double price_value;
-    String meal_text;
     RestaurantPage restaurantPage;
 
-    public Checkout(Client client, String meal, double price, RestaurantPage restaurantPage) {
+    public Checkout(String meal, double price, RestaurantPage restaurantPage) {
         super("Checkout");
-        this.client = client;
         this.price_value = price;
         this.meal_text = meal;
         this.restaurantPage = restaurantPage;
@@ -44,7 +44,9 @@ public class Checkout extends JFrame implements ActionListener {
         Font font = new Font("Arial", Font.PLAIN, 22);
 
         Container container = getContentPane();
-        container.setLayout(new GridLayout(4, 2));
+        JPanel panel = new JPanel(new GridLayout(4, 2));
+        panel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        container.add(panel);
 
         checkout_title = new JLabel("Checkout");
         checkout_title.setFont(font);
@@ -64,14 +66,14 @@ public class Checkout extends JFrame implements ActionListener {
         cancel = new JButton("Cancelar");
         cancel.setFont(font);
 
-        container.add(checkout_title);
-        container.add(credits);
-        container.add(this.meal);
-        container.add(this.price);
-        container.add(credits_remain);
-        container.add(credits_remain_price);
-        container.add(confirm);
-        container.add(cancel);
+        panel.add(checkout_title);
+        panel.add(credits);
+        panel.add(this.meal);
+        panel.add(this.price);
+        panel.add(credits_remain);
+        panel.add(credits_remain_price);
+        panel.add(confirm);
+        panel.add(cancel);
 
         confirm.addActionListener(this);
         cancel.addActionListener(this);
@@ -87,14 +89,20 @@ public class Checkout extends JFrame implements ActionListener {
                         "Erro",
                         JOptionPane.ERROR_MESSAGE);
             } else {
-                repository.updateClientCreditsByIdClient(this.client.getId(),
-                        this.client.getCredits() - this.price_value);
-                repository
-                        .createOrder(new Order(restaurantPage.restaurant.getId(), this.client.getId(), this.meal_text));
-                JOptionPane.showMessageDialog(null, "Compra realizada com sucesso!", "Sucesso",
-                        JOptionPane.INFORMATION_MESSAGE);
-                this.dispose();
-                this.restaurantPage.dispose();
+                try {
+                    repository.updateClientCreditsByIdClient(this.client.getId(),
+                            this.client.getCredits() - this.price_value);
+                    repository
+                            .createOrder(
+                                    new Order(restaurantPage.restaurant.getId(), this.client.getId(), this.meal_text));
+                    JOptionPane.showMessageDialog(null, "Compra realizada com sucesso!", "Sucesso",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                    this.restaurantPage.dispose();
+                } catch (Exception exception) {
+                    JOptionPane.showMessageDialog(null, "Erro ao realizar compra.", "Erro",
+                            JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
         if (e.getSource() == cancel) {
