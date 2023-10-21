@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -27,6 +28,7 @@ public class Login extends JFrame implements ActionListener {
     private JLabel password_label;
     private JButton login;
     private JButton register;
+    private ResourceBundle bn = Home.bn;
     Repository repository = new Repository();
 
     public Login() {
@@ -47,13 +49,13 @@ public class Login extends JFrame implements ActionListener {
         username.setFont(font);
         password = new JPasswordField(20);
         password.setFont(font);
-        username_label = new JLabel("Usuário: ");
+        username_label = new JLabel(bn.getString("login.label.username") + " ");
         username_label.setFont(font);
-        password_label = new JLabel("Senha: ");
+        password_label = new JLabel(bn.getString("login.label.password") + " ");
         password_label.setFont(font);
         login = new JButton("Login");
         login.setFont(font);
-        register = new JButton("Registrar");
+        register = new JButton(bn.getString("login.button.register"));
         register.setFont(font);
 
         form.add(username_label);
@@ -61,12 +63,12 @@ public class Login extends JFrame implements ActionListener {
         form.add(password_label);
         form.add(password);
 
-        form.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
+        form.setBorder(BorderFactory.createEmptyBorder(10, 25, 0, 25));
 
         buttons.add(login);
         buttons.add(register);
 
-        buttons.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
+        buttons.setBorder(BorderFactory.createEmptyBorder(0, 25, 10, 25));
 
         container.add(form, BorderLayout.CENTER);
         container.add(buttons, BorderLayout.SOUTH);
@@ -87,13 +89,15 @@ public class Login extends JFrame implements ActionListener {
             Client client = new Client(username, password);
 
             if (username.equals("") || password.equals("") || username.length() < 3 || password.length() < 3) {
-                JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos!", "Erro!",
+                JOptionPane.showMessageDialog(null, bn.getString("login.message.error"),
+                        bn.getString("login.title.error"),
                         JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
                 try {
                     repository.createClient(client);
-                    JOptionPane.showMessageDialog(null, "Usuário criado com sucesso!", "Sucesso!",
+                    JOptionPane.showMessageDialog(null, bn.getString("login.message.success"),
+                            bn.getString("login.title.success"),
                             JOptionPane.INFORMATION_MESSAGE);
                 } catch (SQLException error) {
                     JOptionPane.showMessageDialog(null, error.getMessage(),
@@ -107,7 +111,8 @@ public class Login extends JFrame implements ActionListener {
             String password = repository.arrayCharToString(this.password.getPassword());
 
             if (username.equals("") || password.equals("")) {
-                JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos!", "Erro!",
+                JOptionPane.showMessageDialog(null, bn.getString("login.message.error"),
+                        bn.getString("login.title.error"),
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -116,7 +121,8 @@ public class Login extends JFrame implements ActionListener {
 
             try {
                 id = repository.getIdClientByLogin(username, password);
-                JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso!",
+                JOptionPane.showMessageDialog(null, bn.getString("login.message.login.success"),
+                        bn.getString("login.title.success"),
                         JOptionPane.INFORMATION_MESSAGE);
                 Client client = repository.getClientByIdClient(id);
                 Home.client = client;
