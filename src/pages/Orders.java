@@ -1,4 +1,4 @@
-package orders;
+package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -14,12 +14,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import shared.domain.entities.Order;
+import shared.entities.Order;
 
 public class Orders extends JFrame implements ActionListener {
-    ArrayList<Order> orders;
-    JLabel orders_title;
-    JButton quit;
+    private ArrayList<Order> orders;
+    private JLabel orders_title;
+    private JButton quit;
 
     public Orders(ArrayList<Order> orders) {
         super("Pedidos");

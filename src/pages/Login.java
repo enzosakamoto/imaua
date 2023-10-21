@@ -1,4 +1,4 @@
-package login;
+package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -8,20 +8,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import database.Repository;
-import home.Home;
-import shared.domain.entities.Client;
+import infra.repository.Repository;
+import shared.entities.Client;
 
 public class Login extends JFrame implements ActionListener {
     private JTextField username;
-    private JTextField password;
+    private JPasswordField password;
     private JLabel username_label;
     private JLabel password_label;
     private JButton login;
@@ -44,7 +45,7 @@ public class Login extends JFrame implements ActionListener {
 
         username = new JTextField(20);
         username.setFont(font);
-        password = new JTextField(20);
+        password = new JPasswordField(20);
         password.setFont(font);
         username_label = new JLabel("Usuário: ");
         username_label.setFont(font);
@@ -60,8 +61,12 @@ public class Login extends JFrame implements ActionListener {
         form.add(password_label);
         form.add(password);
 
+        form.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
+
         buttons.add(login);
         buttons.add(register);
+
+        buttons.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
 
         container.add(form, BorderLayout.CENTER);
         container.add(buttons, BorderLayout.SOUTH);
@@ -77,9 +82,10 @@ public class Login extends JFrame implements ActionListener {
 
         if (e.getSource() == register) {
             String username = this.username.getText();
-            String password = this.password.getText();
+            String password = repository.arrayCharToString(this.password.getPassword());
 
             Client client = new Client(username, password);
+
             if (username.equals("") || password.equals("") || username.length() < 3 || password.length() < 3) {
                 JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos!", "Erro!",
                         JOptionPane.ERROR_MESSAGE);
@@ -98,7 +104,7 @@ public class Login extends JFrame implements ActionListener {
 
         if (e.getSource() == login) {
             String username = this.username.getText();
-            String password = this.password.getText();
+            String password = repository.arrayCharToString(this.password.getPassword());
 
             if (username.equals("") || password.equals("")) {
                 JOptionPane.showMessageDialog(null, "Preencha corretamente todos os campos!", "Erro!",
@@ -113,8 +119,9 @@ public class Login extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso!",
                         JOptionPane.INFORMATION_MESSAGE);
                 Client client = repository.getClientByIdClient(id);
-                Home home_interface = new Home(client);
-                home_interface.setVisible(true);
+                Home.client = client;
+                Home home = new Home();
+                home.setVisible(true);
                 this.setVisible(false);
             } catch (SQLException error) {
                 JOptionPane.showMessageDialog(null, error.getMessage(), "Erro!",

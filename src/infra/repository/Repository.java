@@ -1,31 +1,44 @@
-package database;
+package infra.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-import shared.domain.entities.Client;
-import shared.domain.entities.Order;
-import shared.domain.entities.Restaurant;
+import infra.connector.Connector;
+import shared.entities.Client;
+import shared.entities.Meal;
+import shared.entities.Order;
+import shared.entities.Restaurant;
 
-public class Repository {
-    public Restaurant restaurant_moleza = new Restaurant(1, "Restaurant Moleza");
-    public Restaurant restaurant_biba = new Restaurant(2, "Restaurant Biba");
-    public Restaurant restaurant_techfood = new Restaurant(3, "Restaurant TechFood");
+public class Repository implements IRepository {
+    public Restaurant restaurant_moleza = new Restaurant(1, "Restaurante Moleza");
+    public Restaurant restaurant_biba = new Restaurant(2, "Restaurante Biba");
+    public Restaurant restaurant_techfood = new Restaurant(3, "Restaurante TechFood");
 
     public Repository() {
-        this.restaurant_moleza.setMenu(new String[] { "Beirute de frango", "Açaí", "Coxinha congelada", "Salgados" });
-        this.restaurant_moleza.setPrices(new double[] { 23.0, 10.0, 15.0, 8.0 });
+        this.restaurant_moleza.setMenu(new ArrayList<Meal>(
+                Arrays.asList(
+                        new Meal("Coxinha", 8.0),
+                        new Meal("Beirute", 16.0),
+                        new Meal("Açaí", 15.0),
+                        new Meal("Cappuccino", 7.0))));
 
-        this.restaurant_biba
-                .setMenu(new String[] { "Coxinha", "Café expresso caro", "Baguete de carne com catupiry", "Salada" });
-        this.restaurant_biba.setPrices(new double[] { 8.0, 6.0, 8.0, 24.0 });
+        this.restaurant_biba.setMenu(new ArrayList<Meal>(
+                Arrays.asList(
+                        new Meal("Hamburgão", 7.0),
+                        new Meal("Pão com ovo", 12.0),
+                        new Meal("Café expresso", 5.0),
+                        new Meal("Plutônita", 1.0))));
 
-        this.restaurant_techfood
-                .setMenu(new String[] { "Yopro caro", "Marmitex", "Salgados", "Barrinha Integral Médica" });
-        this.restaurant_techfood.setPrices(new double[] { 12.0, 22.0, 5.0, 10.0 });
+        this.restaurant_techfood.setMenu(new ArrayList<Meal>(
+                Arrays.asList(
+                        new Meal("Marmita de picadão", 22.0),
+                        new Meal("Marmita de macarrão", 20.0),
+                        new Meal("Barrinha da Integral Médica", 8.0),
+                        new Meal("Yopro", 12.0))));
     }
 
     public void createClient(Client client) throws SQLException {
@@ -56,7 +69,7 @@ public class Repository {
         }
     }
 
-    public void createOrder(Order order) {
+    public void createOrder(Order order) throws SQLException {
         String sqlCreateOrder = "INSERT INTO orders VALUES (?, ?, ?, ?, ?, ?);";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
@@ -124,7 +137,7 @@ public class Repository {
         }
     }
 
-    public Client getClientByIdClient(String IdClient) {
+    public Client getClientByIdClient(String IdClient) throws SQLException {
         String sqlGetClient = "SELECT * FROM clients WHERE (id = ?);";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
@@ -147,7 +160,7 @@ public class Repository {
         return null;
     }
 
-    public ArrayList<Order> getAllOrdersByIdClient(String IdClient) {
+    public ArrayList<Order> getAllOrdersByIdClient(String IdClient) throws SQLException {
         String sqlGetClient = "SELECT * FROM orders WHERE (id_client = ?);";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
@@ -176,11 +189,11 @@ public class Repository {
         }
     }
 
-    public void updateStatusOrderByOrderId(String orderId, boolean isDone) {
+    public void updateStatusOrderByOrderId(String orderId, boolean isDone) throws SQLException {
         System.out.println("Order updated");
     }
 
-    public void updateClientCreditsByIdClient(String clientId, double credits) {
+    public void updateClientCreditsByIdClient(String clientId, double credits) throws SQLException {
         String sqlUpdateClient = "UPDATE clients SET credits = ? WHERE id = ?;";
         Connection connection = Connector.getConn();
         PreparedStatement stmt = null;
@@ -201,5 +214,13 @@ public class Repository {
         } finally {
             Connector.closeConn(connection, stmt);
         }
+    }
+
+    public String arrayCharToString(char[] array) {
+        String string = "";
+        for (char c : array) {
+            string += c;
+        }
+        return string;
     }
 }

@@ -1,4 +1,4 @@
-package shared.domain.entities;
+package shared.entities;
 
 import java.util.UUID;
 
