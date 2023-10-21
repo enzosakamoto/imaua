@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import checkout.Checkout;
+import home.Home;
 import shared.domain.entities.Client;
 import shared.domain.entities.Restaurant;
 
@@ -26,9 +28,14 @@ public class RestaurantPage extends JFrame implements ActionListener {
     JButton meal_4;
     Client client;
     public Restaurant restaurant;
+    private ResourceBundle bn = null;
 
     public RestaurantPage(Restaurant restaurant, Client client) {
         super(restaurant.getName());
+
+        bn = ResourceBundle.getBundle("Bundle", new java.util.Locale(Home.language.split(",")[0],
+                Home.language.split(",")[1]));
+                
         this.client = client;
         this.restaurant = restaurant;
         setSize(800, 500);
@@ -45,7 +52,7 @@ public class RestaurantPage extends JFrame implements ActionListener {
 
         restaurant_title = new JLabel(restaurant.getName());
         restaurant_title.setFont(font);
-        back = new JButton("Voltar");
+        back = new JButton(bn.getString("restaurant.button.back"));
         back.setFont(font);
         menu = new JLabel("Menu");
         menu.setFont(font);

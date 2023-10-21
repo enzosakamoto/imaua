@@ -5,26 +5,32 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
+import home.Home;
 import shared.domain.entities.Client;
 import shared.domain.entities.Order;
 import shared.domain.entities.Restaurant;
 
 public class Repository {
+    private ResourceBundle bn = null;
     public Restaurant restaurant_moleza = new Restaurant(1, "Restaurant Moleza");
     public Restaurant restaurant_biba = new Restaurant(2, "Restaurant Biba");
     public Restaurant restaurant_techfood = new Restaurant(3, "Restaurant TechFood");
 
     public Repository() {
-        this.restaurant_moleza.setMenu(new String[] { "Beirute de frango", "Açaí", "Coxinha congelada", "Salgados" });
+        this.bn = ResourceBundle.getBundle("Bundle", new java.util.Locale(Home.language.split(",")[0],
+                Home.language.split(",")[1]));
+
+        this.restaurant_moleza.setMenu(new String[] { bn.getString("rep.moleza.item1"), bn.getString("rep.moleza.item2"), bn.getString("rep.moleza.item3"), bn.getString("rep.moleza.item4") });
         this.restaurant_moleza.setPrices(new double[] { 23.0, 10.0, 15.0, 8.0 });
 
         this.restaurant_biba
-                .setMenu(new String[] { "Coxinha", "Café expresso caro", "Baguete de carne com catupiry", "Salada" });
+                .setMenu(new String[] { bn.getString("rep.biba.item1"), bn.getString("rep.biba.item2"),  bn.getString("rep.biba.item3"), bn.getString("rep.biba.item4") });
         this.restaurant_biba.setPrices(new double[] { 8.0, 6.0, 8.0, 24.0 });
 
         this.restaurant_techfood
-                .setMenu(new String[] { "Yopro caro", "Marmitex", "Salgados", "Barrinha Integral Médica" });
+                .setMenu(new String[] { bn.getString("rep.techfood.item1"), bn.getString("rep.techfood.item2"), bn.getString("rep.techfood.item3"), bn.getString("rep.techfood.item4") });
         this.restaurant_techfood.setPrices(new double[] { 12.0, 22.0, 5.0, 10.0 });
     }
 
@@ -40,7 +46,7 @@ public class Repository {
             stmt.setString(3, client.getPassword());
             stmt.setString(4, String.valueOf(client.getCredits()));
             stmt.executeUpdate();
-            System.out.println("Cliente incluído com sucesso!");
+            System.out.println(bn.getString("rep.client.created"));
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -50,7 +56,7 @@ public class Repository {
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
-            throw new SQLException("Usuário já existe!");
+            throw new SQLException(bn.getString("rep.client.error"));
         } finally {
             Connector.closeConn(connection, stmt);
         }
@@ -69,7 +75,7 @@ public class Repository {
             stmt.setString(5, order.getMeal());
             stmt.setBoolean(6, order.getIsDone());
             stmt.executeUpdate();
-            System.out.println("Pedido criado com sucesso!");
+            System.out.println(bn.getString("rep.order.created"));
             connection.commit();
         } catch (SQLException e) {
             try {
@@ -98,7 +104,7 @@ public class Repository {
             }
             throw new SQLException();
         } catch (SQLException ex) {
-            throw new SQLException("Usuário não encontrado!");
+            throw new SQLException(bn.getString("rep.client.error"));
         } finally {
             Connector.closeConn(connection, stmt);
         }
@@ -115,7 +121,7 @@ public class Repository {
             rs = stmt.executeQuery();
             if (rs.next()) {
                 if (rs.getString("id") != null)
-                    throw new SQLException("Cliente já cadastrado!");
+                    throw new SQLException(bn.getString("rep.client.error2"));
             }
         } catch (SQLException ex) {
             throw ex;
@@ -177,7 +183,7 @@ public class Repository {
     }
 
     public void updateStatusOrderByOrderId(String orderId, boolean isDone) {
-        System.out.println("Order updated");
+        System.out.println(bn.getString("rep.order.updated"));
     }
 
     public void updateClientCreditsByIdClient(String clientId, double credits) {
@@ -189,7 +195,7 @@ public class Repository {
             stmt.setDouble(1, credits);
             stmt.setString(2, clientId);
             stmt.executeUpdate();
-            System.out.println("Créditos atualizados com sucesso!");
+            System.out.println(bn.getString("rep.credits.updated"));
             connection.commit();
         } catch (SQLException e) {
             try {

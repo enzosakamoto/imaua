@@ -7,10 +7,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import database.Repository;
@@ -31,9 +34,32 @@ public class Home extends JFrame implements ActionListener {
     JButton restaurant_techfood;
     Client client;
     Repository repository = new Repository();
+    private ResourceBundle bn = null;
+    public static String language = null;
 
     public Home(Client client) {
         super("Home");
+        
+        int op = Integer.parseInt(JOptionPane.showInputDialog("Idioma - Language - Langue - Lingua\n1 - Português\n2 - English\n3 - Français\n - Italiano\n - Espanhol\n"));
+
+        switch(op) {
+            case 1 : bn = ResourceBundle.getBundle("Bundle", new Locale("pt", "BR"));
+            language = "pt,BR";
+            break;
+            case 2 : bn = ResourceBundle.getBundle("Bundle", new Locale("en", "US"));
+            language = "en,US";
+            break;
+            case 3 : bn = ResourceBundle.getBundle("Bundle", new Locale("fr", "FR"));
+            language = "fr,FR";
+            break;
+            case 4 : bn = ResourceBundle.getBundle("Bundle", new Locale("it", "IT"));
+            language = "it,IT";
+            break;
+            case 5 : bn = ResourceBundle.getBundle("Bundle", new Locale("es", "ES"));
+            language = "es,ES";
+            break;
+        }
+
         this.client = client;
         setSize(900, 500);
         setLayout(null);
@@ -48,20 +74,20 @@ public class Home extends JFrame implements ActionListener {
         JPanel restaurants = new JPanel(new GridLayout(3, 1));
         JPanel header = new JPanel(new GridLayout(1, 3));
 
-        home_title = new JLabel("Bem-vindo, " + client.getName() + "!");
+        home_title = new JLabel(bn.getString("home.label.title ") + client.getName() + "!");
         home_title.setFont(font);
-        add_credits = new JButton("Adicionar créditos");
+        add_credits = new JButton(bn.getString("home.button.add_credits"));
         add_credits.setFont(font);
-        orders = new JButton("Pedidos");
+        orders = new JButton(bn.getString("home.button.orders"));
         orders.setFont(font);
         logoff = new JButton("Logoff");
         logoff.setFont(font);
 
-        restaurant_moleza = new JButton("Restaurant Moleza");
+        restaurant_moleza = new JButton(bn.getString("home.button.restaurant_moleza"));
         restaurant_moleza.setFont(font);
-        restaurant_biba = new JButton("Restaurant Biba");
+        restaurant_biba = new JButton(bn.getString("home.button.restaurant_biba"));
         restaurant_biba.setFont(font);
-        restaurant_techfood = new JButton("Restaurant TechFood");
+        restaurant_techfood = new JButton(bn.getString("home.button.restaurant_techfood"));
         restaurant_techfood.setFont(font);
 
         header.add(home_title);

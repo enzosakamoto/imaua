@@ -8,21 +8,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import home.Home;
 import shared.domain.entities.Order;
 
 public class Orders extends JFrame implements ActionListener {
     ArrayList<Order> orders;
     JLabel orders_title;
     JButton quit;
+    private static ResourceBundle bn = null;
 
     public Orders(ArrayList<Order> orders) {
-        super("Pedidos");
+        super(bn.getString("orders.title"));
+
+        bn = ResourceBundle.getBundle("Bundle", new Locale(Home.language.split(",")[0], Home.language.split(",")[1]));
+
         this.orders = orders;
         Collections.sort(this.orders, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         setSize(850, (!orders.isEmpty() ? orders.size() * 150 : 500));
@@ -38,26 +45,26 @@ public class Orders extends JFrame implements ActionListener {
         JPanel header = new JPanel(new GridLayout(1, 2));
         JPanel body = new JPanel(new GridLayout(orders.size() + 1, 4));
 
-        orders_title = new JLabel("Pedidos: ");
+        orders_title = new JLabel(bn.getString("orders.label.orders_title"));
         orders_title.setFont(font);
-        quit = new JButton("Sair");
+        quit = new JButton(bn.getString("orders.button.quit"));
         quit.setFont(font);
 
         header.add(orders_title);
         header.add(quit);
 
         if (orders.isEmpty()) {
-            JLabel no_orders = new JLabel("                  Nenhum pedido encontrado.");
+            JLabel no_orders = new JLabel(bn.getString("orders.label.no_orders"));
             no_orders.setFont(font);
             body.add(no_orders);
         } else {
-            JLabel date_label = new JLabel("Data");
+            JLabel date_label = new JLabel(bn.getString("orders.label.date"));
             date_label.setFont(font);
-            JLabel restaurant_label = new JLabel("Restaurante");
+            JLabel restaurant_label = new JLabel(bn.getString("orders.label.restaurant"));
             restaurant_label.setFont(font);
-            JLabel meal_label = new JLabel("Refeição");
+            JLabel meal_label = new JLabel(bn.getString("orders.label.meal"));
             meal_label.setFont(font);
-            JLabel status_label = new JLabel("Status");
+            JLabel status_label = new JLabel(bn.getString("orders.label.status"));
             status_label.setFont(font);
             body.add(date_label);
             body.add(restaurant_label);
@@ -74,7 +81,7 @@ public class Orders extends JFrame implements ActionListener {
                 restaurant.setFont(font);
                 JLabel meal = new JLabel(orders.get(i).getMeal());
                 meal.setFont(font);
-                JLabel status = new JLabel(orders.get(i).getIsDone() ? "Pronto" : "Retire seu pedido");
+                JLabel status = new JLabel(orders.get(i).getIsDone() ? bn.getString("orders.status.ready") : bn.getString("orders.status.takeout"));
                 status.setFont(font);
                 body.add(date);
                 body.add(restaurant);
