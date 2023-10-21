@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,7 +26,7 @@ public class Orders extends JFrame implements ActionListener {
         super("Pedidos");
         this.orders = orders;
         Collections.sort(this.orders, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
-        setSize(850, (!orders.isEmpty() ? orders.size() * 150 : 500));
+        setSize(850, (!orders.isEmpty() ? orders.size() * 100 : 500));
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -36,7 +37,9 @@ public class Orders extends JFrame implements ActionListener {
         container.setLayout(new BorderLayout());
 
         JPanel header = new JPanel(new GridLayout(1, 2));
+        header.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
         JPanel body = new JPanel(new GridLayout(orders.size() + 1, 4));
+        body.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
         orders_title = new JLabel("Pedidos: ");
         orders_title.setFont(font);
