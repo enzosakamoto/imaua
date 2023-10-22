@@ -96,6 +96,7 @@ public class Checkout extends JFrame implements ActionListener {
                 try {
                     repository.updateClientCreditsByIdClient(this.client.getId(),
                             this.client.getCredits() - this.price_value);
+                    Home.client = repository.getClientByIdClient(this.client.getId());
                     repository
                             .createOrder(
                                     new Order(restaurantPage.restaurant.getId(), this.client.getId(), this.meal_text));
