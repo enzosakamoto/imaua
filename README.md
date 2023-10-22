@@ -1,7 +1,7 @@
 
 # iMauá 🥐😋🌯
 
-Projeto semestral para o fechamento do 1º semestre da 3ª série do curso de Engenharia de Computação do Instituto Mauá de Tecnologia da disciplina Linguagens de Programação I.
+Projeto semestral para o fechamento da 3ª série do curso de Engenharia de Computação do Instituto Mauá de Tecnologia da disciplina Linguagens de Programação I.
 
 
 ## Objetivos 🥸
