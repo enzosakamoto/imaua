@@ -70,7 +70,7 @@ public class Order {
         this.isDone = isDone;
     }
 
-    private String getLocalDate() {
+    public static String getLocalDate() {
         // Obter a data atual
         LocalDateTime dataHoraAtual = LocalDateTime.now();
 

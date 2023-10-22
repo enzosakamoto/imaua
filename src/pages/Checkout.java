@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
@@ -101,6 +102,27 @@ public class Checkout extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, bn.getString("checkout.success.credits"),
                             bn.getString("checkout.success.title"),
                             JOptionPane.INFORMATION_MESSAGE);
+                    int op = JOptionPane.showInternalConfirmDialog(null, "Deseja recibo?", "Recibo",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (op == JOptionPane.YES_OPTION) {
+                        FileWriter file = new FileWriter(
+                                "src/receipt/" + Order.getLocalDate() + "-" + Home.client.getId() + ".txt");
+                        try {
+                            file.write("Recibo IMauá\n\n");
+                            file.write("Data:                " + Order.getLocalDate() + "\n\n");
+                            file.write("Cliente:             " + this.client.getName() + "\n");
+                            file.write("Restaurante:         " + this.restaurantPage.restaurant.getName() + "\n");
+                            file.write("Refeição:            " + this.meal_text + "\n");
+                            file.write("Preço:               R$ " + this.price_value + "\n");
+                            file.write(
+                                    "Créditos restantes:  R$ " + (this.client.getCredits() - this.price_value) + "\n");
+                            file.close();
+                        } catch (Exception exception) {
+                            System.out.println(exception.getMessage());
+                        }
+                    }
+
                     this.dispose();
                     this.restaurantPage.dispose();
                 } catch (Exception exception) {
