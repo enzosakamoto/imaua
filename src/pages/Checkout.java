@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import server.ClientSide;
 import shared.entities.Client;
 import shared.entities.Meal;
 import shared.entities.Order;
@@ -94,12 +95,18 @@ public class Checkout extends JFrame implements ActionListener {
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
+
                     repository.updateClientCreditsByIdClient(this.client.getId(),
                             this.client.getCredits() - this.price_value);
                     Home.client = repository.getClientByIdClient(this.client.getId());
+                    Order order = new Order(restaurantPage.restaurant.getId(), this.client.getId(), this.meal_text);
                     repository
-                            .createOrder(
-                                    new Order(restaurantPage.restaurant.getId(), this.client.getId(), this.meal_text));
+                            .createOrder(order);
+
+                    String msg = "Pedido para o " + this.restaurantPage.restaurant.getName() + ", comida "
+                            + this.meal_text + " pelo preço de R$ " + this.price_value + " pode ser confirmado?";
+                    ClientSide.sendToServer(msg, order.getId());
+
                     JOptionPane.showMessageDialog(null, bn.getString("checkout.success.credits"),
                             bn.getString("checkout.success.title"),
                             JOptionPane.INFORMATION_MESSAGE);
