@@ -1,5 +1,9 @@
 package shared.infra.repository;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +55,7 @@ public class Repository implements IRepository {
             stmt = connection.prepareStatement(sqlCreateClient);
             stmt.setString(1, client.getId());
             stmt.setString(2, client.getName());
-            stmt.setString(3, client.getPassword());
+            stmt.setString(3, toHexString(getSHA(client.getPassword())));
             stmt.setString(4, String.valueOf(client.getCredits()));
             stmt.executeUpdate();
             System.out.println("Cliente incluído com sucesso!");
@@ -65,6 +69,8 @@ public class Repository implements IRepository {
                 System.out.println(ex.getMessage());
             }
             throw new SQLException(bn.getString("rep.client.error"));
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
         } finally {
             Connector.closeConn(connection, stmt);
         }
@@ -105,7 +111,7 @@ public class Repository implements IRepository {
         try {
             stmt = connection.prepareStatement(sqlGetClient);
             stmt.setString(1, name);
-            stmt.setString(2, password);
+            stmt.setString(2, toHexString(getSHA(password)));
             rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getString("id");
@@ -113,6 +119,9 @@ public class Repository implements IRepository {
             throw new SQLException();
         } catch (SQLException ex) {
             throw new SQLException("Usuário não encontrado!");
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e.getMessage());
+            return null;
         } finally {
             Connector.closeConn(connection, stmt);
         }
@@ -215,6 +224,31 @@ public class Repository implements IRepository {
         } finally {
             Connector.closeConn(connection, stmt);
         }
+    }
+
+    public static byte[] getSHA(String input) throws NoSuchAlgorithmException {
+        // Static getInstance method is called with hashing SHA
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+
+        // digest() method called
+        // to calculate message digest of an input
+        // and return array of byte
+        return md.digest(input.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static String toHexString(byte[] hash) {
+        // Convert byte array into signum representation
+        BigInteger number = new BigInteger(1, hash);
+
+        // Convert message digest into hex value
+        StringBuilder hexString = new StringBuilder(number.toString(16));
+
+        // Pad with leading zeros
+        while (hexString.length() < 64) {
+            hexString.insert(0, '0');
+        }
+
+        return hexString.toString();
     }
 
     public String arrayCharToString(char[] array) {
