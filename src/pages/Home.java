@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,14 +37,16 @@ public class Home extends JFrame implements ActionListener {
     private JButton restaurant_techfood;
     private JMenuBar menuBar;
     private JMenu languages;
-    private JMenuItem portuguese = new JMenuItem("Português");
-    private JMenuItem english = new JMenuItem("Inglês");
-    private JMenuItem italian = new JMenuItem("Italiano");
-    private JMenuItem french = new JMenuItem("Francês");
-    private JMenuItem german = new JMenuItem("Alemão");
+    private JMenuItem portuguese = new JMenuItem("Portuguese");
+    private JMenuItem english = new JMenuItem("English");
+    private JMenuItem italian = new JMenuItem("Italian");
+    private JMenuItem french = new JMenuItem("French");
+    private JMenuItem espanish = new JMenuItem("Espanish");
     private JSeparator separator = new JSeparator();
 
-    private Repository repository = new Repository();
+    public static ResourceBundle bn = ResourceBundle.getBundle("shared/languages/Bundle", Locale.of("pt", "BR"));
+
+    private Repository repository = new Repository(bn);
 
     public static Client client = null;
 
@@ -53,6 +57,8 @@ public class Home extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        System.out.println(bn.getLocale());
+
         Font font = new Font("Arial", Font.PLAIN, 22);
 
         Container container = getContentPane();
@@ -62,23 +68,24 @@ public class Home extends JFrame implements ActionListener {
 
         menuBar = new JMenuBar();
 
-        home_title = new JLabel(client != null ? "Bem-vindo, " + client.getName() + "!" : "Bem-vindo!");
+        home_title = new JLabel(client != null ? bn.getString("home.label.title") + ", " + client.getName() + "!"
+                : bn.getString("home.label.title") + "!");
         home_title.setFont(font);
-        add_credits = new JButton("Adicionar créditos");
+        add_credits = new JButton(bn.getString("home.button.add_credits"));
         add_credits.setFont(font);
-        orders = new JButton("Pedidos");
+        orders = new JButton(bn.getString("home.button.orders"));
         orders.setFont(font);
         logoff = new JButton("Logoff");
         logoff.setFont(font);
         login = new JButton("Login");
         login.setFont(font);
-        languages = new JMenu("Idiomas");
+        languages = new JMenu(bn.getString("home.menu.languages"));
         languages.setFont(font);
         languages.add(portuguese);
         languages.add(english);
         languages.add(italian);
         languages.add(french);
-        languages.add(german);
+        languages.add(espanish);
 
         menuBar.add(home_title);
         menuBar.add(separator);
@@ -95,11 +102,11 @@ public class Home extends JFrame implements ActionListener {
 
         setJMenuBar(menuBar);
 
-        restaurant_moleza = new JButton("Restaurante Moleza");
+        restaurant_moleza = new JButton(bn.getString("home.button.restaurante_moleza"));
         restaurant_moleza.setFont(font);
-        restaurant_biba = new JButton("Restaurante Biba");
+        restaurant_biba = new JButton(bn.getString("home.button.restaurante_biba"));
         restaurant_biba.setFont(font);
-        restaurant_techfood = new JButton("Restaurante TechFood");
+        restaurant_techfood = new JButton(bn.getString("home.button.restaurante_techfood"));
         restaurant_techfood.setFont(font);
 
         restaurants.add(restaurant_moleza);
@@ -121,6 +128,11 @@ public class Home extends JFrame implements ActionListener {
         restaurant_moleza.addActionListener(this);
         restaurant_biba.addActionListener(this);
         restaurant_techfood.addActionListener(this);
+        portuguese.addActionListener(this);
+        english.addActionListener(this);
+        italian.addActionListener(this);
+        french.addActionListener(this);
+        espanish.addActionListener(this);
     }
 
     @Override
@@ -158,7 +170,7 @@ public class Home extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
-                RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_moleza);
+                RestaurantPage restaurant_page = new RestaurantPage(0, bn);
                 restaurant_page.setVisible(true);
             }
         }
@@ -168,7 +180,7 @@ public class Home extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
-                RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_biba);
+                RestaurantPage restaurant_page = new RestaurantPage(1, bn);
                 restaurant_page.setVisible(true);
             }
         }
@@ -178,9 +190,45 @@ public class Home extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
-                RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_techfood);
+                this.dispose();
+                RestaurantPage restaurant_page = new RestaurantPage(2, bn);
                 restaurant_page.setVisible(true);
             }
+        }
+
+        if (e.getSource() == portuguese) {
+            bn = ResourceBundle.getBundle("shared/languages/Bundle", Locale.of("pt", "BR"));
+            this.dispose();
+            Home home = new Home();
+            home.setVisible(true);
+        }
+
+        if (e.getSource() == english) {
+            bn = ResourceBundle.getBundle("shared/languages/Bundle", Locale.US);
+            this.dispose();
+            Home home = new Home();
+            home.setVisible(true);
+        }
+
+        if (e.getSource() == italian) {
+            bn = ResourceBundle.getBundle("shared/languages/Bundle", Locale.ITALY);
+            this.dispose();
+            Home home = new Home();
+            home.setVisible(true);
+        }
+
+        if (e.getSource() == french) {
+            bn = ResourceBundle.getBundle("shared/languages/Bundle", Locale.FRANCE);
+            this.dispose();
+            Home home = new Home();
+            home.setVisible(true);
+        }
+
+        if (e.getSource() == espanish) {
+            bn = ResourceBundle.getBundle("shared/languages/Bundle", Locale.of("es", "ES"));
+            this.dispose();
+            Home home = new Home();
+            home.setVisible(true);
         }
     }
 }

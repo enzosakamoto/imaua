@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 import shared.entities.Client;
 import shared.entities.Meal;
@@ -14,31 +15,31 @@ import shared.entities.Restaurant;
 import shared.infra.connector.Connector;
 
 public class Repository implements IRepository {
-    public Restaurant restaurant_moleza = new Restaurant(1, "Restaurante Moleza");
-    public Restaurant restaurant_biba = new Restaurant(2, "Restaurante Biba");
-    public Restaurant restaurant_techfood = new Restaurant(3, "Restaurante TechFood");
+    private ResourceBundle bn;
+    public ArrayList<Restaurant> restaurants;
 
-    public Repository() {
-        this.restaurant_moleza.setMenu(new ArrayList<Meal>(
+    public Repository(ResourceBundle bn) {
+        this.bn = bn;
+        this.restaurants = new ArrayList<Restaurant>(
                 Arrays.asList(
-                        new Meal("Coxinha", 8.0),
-                        new Meal("Beirute", 16.0),
-                        new Meal("Açaí", 15.0),
-                        new Meal("Cappuccino", 7.0))));
-
-        this.restaurant_biba.setMenu(new ArrayList<Meal>(
-                Arrays.asList(
-                        new Meal("Hamburgão", 7.0),
-                        new Meal("Pão com ovo", 12.0),
-                        new Meal("Café expresso", 5.0),
-                        new Meal("Plutônita", 1.0))));
-
-        this.restaurant_techfood.setMenu(new ArrayList<Meal>(
-                Arrays.asList(
-                        new Meal("Marmita de picadão", 22.0),
-                        new Meal("Marmita de macarrão", 20.0),
-                        new Meal("Barrinha da Integral Médica", 8.0),
-                        new Meal("Yopro", 12.0))));
+                        new Restaurant(1, "Restaurante Moleza", new ArrayList<Meal>(
+                                Arrays.asList(
+                                        new Meal(bn.getString("rep.moleza.item1"), 8.0),
+                                        new Meal(bn.getString("rep.moleza.item2"), 16.0),
+                                        new Meal(bn.getString("rep.moleza.item3"), 15.0),
+                                        new Meal(bn.getString("rep.moleza.item4"), 7.0)))),
+                        new Restaurant(2, "Restaurante Biba", new ArrayList<Meal>(
+                                Arrays.asList(
+                                        new Meal(bn.getString("rep.biba.item1"), 7.0),
+                                        new Meal(bn.getString("rep.biba.item2"), 12.0),
+                                        new Meal(bn.getString("rep.biba.item3"), 5.0),
+                                        new Meal(bn.getString("rep.biba.item4"), 1.0)))),
+                        new Restaurant(3, "Restaurante TechFood", new ArrayList<Meal>(
+                                Arrays.asList(
+                                        new Meal(bn.getString("rep.techfood.item1"), 22.0),
+                                        new Meal(bn.getString("rep.techfood.item2"), 20.0),
+                                        new Meal(bn.getString("rep.techfood.item3"), 8.0),
+                                        new Meal(bn.getString("rep.techfood.item4"), 12.0))))));
     }
 
     public void createClient(Client client) throws SQLException {
@@ -63,7 +64,7 @@ public class Repository implements IRepository {
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
-            throw new SQLException("Usuário já existe!");
+            throw new SQLException(bn.getString("rep.client.error"));
         } finally {
             Connector.closeConn(connection, stmt);
         }
@@ -128,7 +129,7 @@ public class Repository implements IRepository {
             rs = stmt.executeQuery();
             if (rs.next()) {
                 if (rs.getString("id") != null)
-                    throw new SQLException("Cliente já cadastrado!");
+                    throw new SQLException(bn.getString("rep.client.error2"));
             }
         } catch (SQLException ex) {
             throw ex;

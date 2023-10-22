@@ -12,6 +12,12 @@ public class Restaurant {
         this.name = name;
     }
 
+    public Restaurant(int id, String name, ArrayList<Meal> menu) {
+        this.id = id;
+        this.name = name;
+        this.menu = menu;
+    }
+
     public int getId() {
         return id;
     }
