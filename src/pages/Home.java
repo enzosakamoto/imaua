@@ -57,8 +57,6 @@ public class Home extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        System.out.println(bn.getLocale());
-
         Font font = new Font("Arial", Font.PLAIN, 22);
 
         Container container = getContentPane();
