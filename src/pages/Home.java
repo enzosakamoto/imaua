@@ -46,7 +46,7 @@ public class Home extends JFrame implements ActionListener {
 
     public static ResourceBundle bn = ResourceBundle.getBundle("shared/languages/Bundle", Locale.of("pt", "BR"));
 
-    private Repository repository = new Repository();
+    private Repository repository = new Repository(bn);
 
     public static Client client = null;
 
@@ -56,6 +56,8 @@ public class Home extends JFrame implements ActionListener {
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        System.out.println(bn.getLocale());
 
         Font font = new Font("Arial", Font.PLAIN, 22);
 
@@ -168,7 +170,7 @@ public class Home extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
-                RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_moleza);
+                RestaurantPage restaurant_page = new RestaurantPage(0, bn);
                 restaurant_page.setVisible(true);
             }
         }
@@ -178,7 +180,7 @@ public class Home extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
-                RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_biba);
+                RestaurantPage restaurant_page = new RestaurantPage(1, bn);
                 restaurant_page.setVisible(true);
             }
         }
@@ -188,7 +190,8 @@ public class Home extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
-                RestaurantPage restaurant_page = new RestaurantPage(repository.restaurant_techfood);
+                this.dispose();
+                RestaurantPage restaurant_page = new RestaurantPage(2, bn);
                 restaurant_page.setVisible(true);
             }
         }

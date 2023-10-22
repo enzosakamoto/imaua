@@ -29,7 +29,7 @@ public class Login extends JFrame implements ActionListener {
     private JButton login;
     private JButton register;
     private ResourceBundle bn = Home.bn;
-    Repository repository = new Repository();
+    Repository repository = new Repository(bn);
 
     public Login() {
         super("Login");

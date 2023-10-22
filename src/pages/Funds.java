@@ -23,7 +23,7 @@ public class Funds extends JFrame implements ActionListener {
     private JButton cancel;
 
     private static ResourceBundle bn = Home.bn;
-    private Repository repository = new Repository();
+    private Repository repository = new Repository(bn);
     private String IdClient = Home.client.getId();
 
     public Funds() {

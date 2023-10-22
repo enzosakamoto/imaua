@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import shared.entities.Client;
+import shared.entities.Meal;
 import shared.entities.Order;
 import shared.infra.repository.Repository;
 
@@ -29,13 +30,13 @@ public class Checkout extends JFrame implements ActionListener {
     private double price_value;
     private String meal_text;
     private Client client = Home.client;
-    Repository repository = new Repository();
+    Repository repository = new Repository(Home.bn);
     RestaurantPage restaurantPage;
 
-    public Checkout(String meal, double price, RestaurantPage restaurantPage) {
+    public Checkout(Meal meal, RestaurantPage restaurantPage) {
         super("Checkout");
-        this.price_value = price;
-        this.meal_text = meal;
+        this.price_value = meal.getPrice();
+        this.meal_text = meal.getName();
         this.restaurantPage = restaurantPage;
         setSize(750, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,13 +53,13 @@ public class Checkout extends JFrame implements ActionListener {
         checkout_title.setFont(font);
         credits = new JLabel("Créditos: " + client.getCredits());
         credits.setFont(font);
-        this.meal = new JLabel("Comida: " + meal);
+        this.meal = new JLabel("Comida: " + meal_text);
         this.meal.setFont(font);
-        this.price = new JLabel("R$ " + price);
+        this.price = new JLabel("R$ " + price_value);
         this.price.setFont(font);
         credits_remain = new JLabel("Créditos restantes: ");
         credits_remain.setFont(font);
-        credits_remain_price = new JLabel("R$ " + (client.getCredits() - Double.valueOf(price)));
+        credits_remain_price = new JLabel("R$ " + (client.getCredits() - price_value));
         credits_remain_price.setFont(font);
 
         confirm = new JButton("Confirmar");

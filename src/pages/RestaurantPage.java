@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import shared.entities.Restaurant;
+import shared.infra.repository.Repository;
 
 public class RestaurantPage extends JFrame implements ActionListener {
     private JLabel restaurant_title;
@@ -23,11 +25,15 @@ public class RestaurantPage extends JFrame implements ActionListener {
     private JButton meal_2;
     private JButton meal_3;
     private JButton meal_4;
-    Restaurant restaurant;
 
-    public RestaurantPage(Restaurant restaurant) {
-        super(restaurant.getName());
-        this.restaurant = restaurant;
+    private Repository repository;
+    public Restaurant restaurant;
+
+    public RestaurantPage(int restaurantId, ResourceBundle bn) {
+        this.repository = new Repository(bn);
+        this.restaurant = repository.restaurants.get(restaurantId);
+
+        setTitle(this.restaurant.getName());
         setSize(800, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -44,7 +50,7 @@ public class RestaurantPage extends JFrame implements ActionListener {
 
         restaurant_title = new JLabel(restaurant.getName());
         restaurant_title.setFont(font);
-        back = new JButton("Voltar");
+        back = new JButton(bn.getString("restaurant.button.back"));
         back.setFont(font);
         menu = new JLabel("Menu");
         menu.setFont(font);
@@ -85,29 +91,27 @@ public class RestaurantPage extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == back) {
             this.dispose();
+            Home home = new Home();
+            home.setVisible(true);
         }
 
         if (e.getSource() == meal_1) {
-            Checkout checkout = new Checkout(restaurant.getMenu().get(0).getName(),
-                    restaurant.getMenu().get(0).getPrice(), this);
+            Checkout checkout = new Checkout(restaurant.getMenu().get(0), this);
             checkout.setVisible(true);
         }
 
         if (e.getSource() == meal_2) {
-            Checkout checkout = new Checkout(restaurant.getMenu().get(1).getName(),
-                    restaurant.getMenu().get(1).getPrice(), this);
+            Checkout checkout = new Checkout(restaurant.getMenu().get(1), this);
             checkout.setVisible(true);
         }
 
         if (e.getSource() == meal_3) {
-            Checkout checkout = new Checkout(restaurant.getMenu().get(2).getName(),
-                    restaurant.getMenu().get(2).getPrice(), this);
+            Checkout checkout = new Checkout(restaurant.getMenu().get(2), this);
             checkout.setVisible(true);
         }
 
         if (e.getSource() == meal_4) {
-            Checkout checkout = new Checkout(restaurant.getMenu().get(3).getName(),
-                    restaurant.getMenu().get(3).getPrice(), this);
+            Checkout checkout = new Checkout(restaurant.getMenu().get(3), this);
             checkout.setVisible(true);
         }
     }
