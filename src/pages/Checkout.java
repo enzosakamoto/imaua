@@ -53,9 +53,9 @@ public class Checkout extends JFrame implements ActionListener {
 
         checkout_title = new JLabel("Checkout");
         checkout_title.setFont(font);
-        credits = new JLabel(bn.getString("checkout.label.credits") + client.getCredits());
+        credits = new JLabel(bn.getString("checkout.label.credits") + " " + client.getCredits());
         credits.setFont(font);
-        this.meal = new JLabel(bn.getString("checkout.label.meal") + meal);
+        this.meal = new JLabel(bn.getString("checkout.label.meal") + " " + meal_text);
         this.meal.setFont(font);
         this.price = new JLabel("R$ " + price_value);
         this.price.setFont(font);
