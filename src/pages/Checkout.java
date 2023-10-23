@@ -103,28 +103,28 @@ public class Checkout extends JFrame implements ActionListener {
                     repository
                             .createOrder(order);
 
-                    String msg = "Pedido para o " + this.restaurantPage.restaurant.getName() + ", comida "
-                            + this.meal_text + " pelo preço de R$ " + this.price_value + " pode ser confirmado?";
+                    String msg = bn.getString("checkout.msg1") + this.restaurantPage.restaurant.getName() + bn.getString("checkout.msg2")
+                            + this.meal_text + bn.getString("checkout.msg3") + this.price_value + bn.getString("checkout.msg4");
                     ClientSide.sendToServer(msg, order.getId());
 
                     JOptionPane.showMessageDialog(null, bn.getString("checkout.success.credits"),
                             bn.getString("checkout.success.title"),
                             JOptionPane.INFORMATION_MESSAGE);
-                    int op = JOptionPane.showInternalConfirmDialog(null, "Deseja recibo?", "Recibo",
+                    int op = JOptionPane.showInternalConfirmDialog(null, bn.getString("checkout.receipt.message"), bn.getString("checkout.receipt.title"),
                             JOptionPane.YES_NO_OPTION);
 
                     if (op == JOptionPane.YES_OPTION) {
                         FileWriter file = new FileWriter(
                                 "src/receipt/" + Order.getLocalDate() + "-" + Home.client.getId() + ".txt");
                         try {
-                            file.write("Recibo IMauá\n\n");
-                            file.write("Data:                " + Order.getLocalDate() + "\n\n");
-                            file.write("Cliente:             " + this.client.getName() + "\n");
-                            file.write("Restaurante:         " + this.restaurantPage.restaurant.getName() + "\n");
-                            file.write("Refeição:            " + this.meal_text + "\n");
-                            file.write("Preço:               R$ " + this.price_value + "\n");
+                            file.write(bn.getString("checkout.receipt.l1") + "\n\n");
+                            file.write(bn.getString("checkout.receipt.l2") + "\t\t\t" + Order.getLocalDate() + "\n\n");
+                            file.write(bn.getString("checkout.receipt.l3") + "\t\t\t" + this.client.getName() + "\n");
+                            file.write(bn.getString("checkout.receipt.l4") + "\t\t\t" + this.restaurantPage.restaurant.getName() + "\n");
+                            file.write(bn.getString("checkout.receipt.l5") + "\t\t\t" + this.meal_text + "\n");
+                            file.write(bn.getString("checkout.receipt.l6") + "\t\t\tR$" + this.price_value + "\n");
                             file.write(
-                                    "Créditos restantes:  R$ " + (this.client.getCredits() - this.price_value) + "\n");
+                                     bn.getString("checkout.receipt.l7") + "\tR$" + (this.client.getCredits() - this.price_value) + "\n");
                             file.close();
                         } catch (Exception exception) {
                             System.out.println(exception.getMessage());
