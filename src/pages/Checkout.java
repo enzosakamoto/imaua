@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -33,6 +34,7 @@ public class Checkout extends JFrame implements ActionListener {
     private double price_value;
     private String meal_text;
     private Client client = Home.client;
+    private Scanner scanner = new Scanner(System.in);
     Repository repository = new Repository(Home.bn);
     RestaurantPage restaurantPage;
     private ResourceBundle bn = Home.bn;
@@ -103,14 +105,21 @@ public class Checkout extends JFrame implements ActionListener {
                     repository
                             .createOrder(order);
 
-                    String msg = bn.getString("checkout.msg1") + this.restaurantPage.restaurant.getName() + bn.getString("checkout.msg2")
-                            + this.meal_text + bn.getString("checkout.msg3") + this.price_value + bn.getString("checkout.msg4");
+                    String msg = "Pedido para " + this.restaurantPage.restaurant.getName()
+                            + ", prato "
+                            + this.meal_text + "ao preço de R$ " + this.price_value
+                            + "pode ser confirmado?";
                     ClientSide.sendToServer(msg, order.getId());
+
+                    ClientSide.messageReceived();
+                    String response = scanner.nextLine();
+                    System.out.println(response);
 
                     JOptionPane.showMessageDialog(null, bn.getString("checkout.success.credits"),
                             bn.getString("checkout.success.title"),
                             JOptionPane.INFORMATION_MESSAGE);
-                    int op = JOptionPane.showInternalConfirmDialog(null, bn.getString("checkout.receipt.message"), bn.getString("checkout.receipt.title"),
+                    int op = JOptionPane.showInternalConfirmDialog(null, bn.getString("checkout.receipt.message"),
+                            bn.getString("checkout.receipt.title"),
                             JOptionPane.YES_NO_OPTION);
 
                     if (op == JOptionPane.YES_OPTION) {
@@ -120,11 +129,13 @@ public class Checkout extends JFrame implements ActionListener {
                             file.write(bn.getString("checkout.receipt.l1") + "\n\n");
                             file.write(bn.getString("checkout.receipt.l2") + "\t\t\t" + Order.getLocalDate() + "\n\n");
                             file.write(bn.getString("checkout.receipt.l3") + "\t\t\t" + this.client.getName() + "\n");
-                            file.write(bn.getString("checkout.receipt.l4") + "\t\t\t" + this.restaurantPage.restaurant.getName() + "\n");
+                            file.write(bn.getString("checkout.receipt.l4") + "\t\t\t"
+                                    + this.restaurantPage.restaurant.getName() + "\n");
                             file.write(bn.getString("checkout.receipt.l5") + "\t\t\t" + this.meal_text + "\n");
                             file.write(bn.getString("checkout.receipt.l6") + "\t\t\tR$" + this.price_value + "\n");
                             file.write(
-                                     bn.getString("checkout.receipt.l7") + "\tR$" + (this.client.getCredits() - this.price_value) + "\n");
+                                    bn.getString("checkout.receipt.l7") + "\tR$"
+                                            + (this.client.getCredits() - this.price_value) + "\n");
                             file.close();
                         } catch (Exception exception) {
                             System.out.println(exception.getMessage());
