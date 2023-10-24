@@ -10,20 +10,32 @@ public class ClientSide {
     private static Scanner input;
     private static PrintStream output;
 
-    public static void startClient() throws IOException {
+    public void startClient() throws IOException {
         client = new Socket(ServerSide.IP, ServerSide.PORT);
         System.out.println(
                 "Cliente: " + ServerSide.IP + ":" + ServerSide.PORT + " conectado ao servidor!");
+        input = new Scanner(client.getInputStream());
     }
 
-    public static void sendToServer(String msg, String orderId) throws IOException {
+    public String serverToClient(String msg, String orderId) throws IOException {
+        String echo = "";
+
+        if (!echo.equalsIgnoreCase("true") || !echo.equalsIgnoreCase("false")) {
+            sendToServer(msg, orderId);
+            echo = messageReceived();
+        }
+
+        return echo;
+    }
+
+    private void sendToServer(String msg, String orderId) throws IOException {
         output = new PrintStream(client.getOutputStream());
         output.println(msg);
         output.println(orderId);
-        // System.out.println("Enviado para o servidor: " + msg);
+        System.out.println("Enviado para o servidor: " + msg);
     }
 
-    public static String messageReceived() throws IOException {
+    private String messageReceived() throws IOException {
         String msg = input.nextLine();
         System.out.println("Chegou do servidor: " + msg);
         return msg;

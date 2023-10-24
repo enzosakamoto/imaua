@@ -46,13 +46,13 @@ public class ServerSide {
         while (input.hasNextLine()) {
             msg = messageFromClient();
             sendMessageToClient(msg);
+            input.nextLine();
         }
     }
 
     private static String messageFromClient() throws IOException {
         String msg = input.nextLine();
-        System.out.println(msg);
-        msg = input.nextLine();
+        System.out.println("Chegou do cliente:");
         System.out.println(msg);
         return msg;
     }
@@ -62,7 +62,8 @@ public class ServerSide {
         input = new Scanner(System.in);
         String resposta = input.nextLine();
         if (resposta.equalsIgnoreCase("S")) {
-
+            output.println("true");
+            System.out.println("Enviado para o cliente: " + true);
         } else {
             output.println("false");
             System.out.println("Enviado para o cliente: " + false);
