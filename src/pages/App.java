@@ -1,5 +1,7 @@
 package pages;
 
+import javax.swing.JOptionPane;
+
 import server.ClientSide;
 
 public class App {
@@ -12,7 +14,7 @@ public class App {
             Home home = new Home();
             home.setVisible(true);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }
