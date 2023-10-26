@@ -15,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import shared.entities.Order;
 
@@ -22,13 +24,21 @@ public class Orders extends JFrame implements ActionListener {
     private ArrayList<Order> orders;
     private JLabel orders_title;
     private JButton quit;
+    private JTable table;
     private static ResourceBundle bn = Home.bn;
+
+    Object[] columns = {
+            bn.getString("orders.label.date"),
+            bn.getString("orders.label.restaurant"),
+            bn.getString("orders.label.meal"),
+            bn.getString("orders.label.status")
+    };
 
     public Orders(ArrayList<Order> orders) {
         super(bn.getString("orders.title"));
         this.orders = orders;
         Collections.sort(this.orders, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
-        setSize(850, (!orders.isEmpty() ? orders.size() * 100 : 500));
+        setSize(750, 500);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -40,8 +50,13 @@ public class Orders extends JFrame implements ActionListener {
 
         JPanel header = new JPanel(new GridLayout(1, 2));
         header.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-        JPanel body = new JPanel(new GridLayout(orders.size() + 1, 4));
-        body.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+        JPanel body = new JPanel(new GridLayout(1, 1));
+
+        DefaultTableModel tableModel = new DefaultTableModel(columns, columns.length);
+
+        table = new JTable(tableModel);
+
+        table.setFont(font);
 
         orders_title = new JLabel(bn.getString("orders.label.orders_title"));
         orders_title.setFont(font);
@@ -56,37 +71,23 @@ public class Orders extends JFrame implements ActionListener {
             no_orders.setFont(font);
             body.add(no_orders);
         } else {
-            JLabel date_label = new JLabel(bn.getString("orders.label.date"));
-            date_label.setFont(font);
-            JLabel restaurant_label = new JLabel(bn.getString("orders.label.restaurant"));
-            restaurant_label.setFont(font);
-            JLabel meal_label = new JLabel(bn.getString("orders.label.meal"));
-            meal_label.setFont(font);
-            JLabel status_label = new JLabel(bn.getString("orders.label.status"));
-            status_label.setFont(font);
-            body.add(date_label);
-            body.add(restaurant_label);
-            body.add(meal_label);
-            body.add(status_label);
             for (int i = 0; i < orders.size(); i++) {
-                JLabel date = new JLabel(orders.get(i).getDate());
-                date.setFont(font);
-                JLabel restaurant = new JLabel((orders.get(i).getIdRestaurant() == 1 ? "Moleza"
+                String date = orders.get(i).getDate();
+                String restaurant = (orders.get(i).getIdRestaurant() == 1) ? "Moleza"
                         : (orders.get(i)
-                                .getIdRestaurant() == 2 ? "Biba"
+                                .getIdRestaurant() == 2) ? "Biba"
                                         : (orders.get(i)
-                                                .getIdRestaurant() == 3 ? "Tech Food" : "Error"))));
-                restaurant.setFont(font);
-                JLabel meal = new JLabel(orders.get(i).getMeal());
-                meal.setFont(font);
-                JLabel status = new JLabel(orders.get(i).getIsDone() == 0 ? bn.getString("orders.status.ready")
-                        : bn.getString("orders.status.takeout"));
-                status.setFont(font);
-                body.add(date);
-                body.add(restaurant);
-                body.add(meal);
-                body.add(status);
+                                                .getIdRestaurant() == 3) ? "Tech Food" : "Error";
+                String meal = orders.get(i).getMeal();
+                String status = orders.get(i).getIsDone() == 0 ? bn.getString("orders.status.ready")
+                        : bn.getString("orders.status.takeout");
+
+                table.setValueAt(date, i, 0);
+                table.setValueAt(restaurant, i, 1);
+                table.setValueAt(meal, i, 2);
+                table.setValueAt(status, i, 3);
             }
+            body.add(table);
         }
 
         quit.addActionListener(this);
