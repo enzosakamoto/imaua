@@ -11,7 +11,7 @@ public class Order {
     private String date;
     private int id_restaurant;
     private String meal;
-    private boolean isDone;
+    private int isDone;
 
     public Order(int id_restaurant, String id_client, String meal) {
         this.id = UUID.randomUUID().toString();
@@ -19,7 +19,7 @@ public class Order {
         this.id_restaurant = id_restaurant;
         this.id_client = id_client;
         this.meal = meal;
-        this.isDone = false;
+        this.isDone = 0;
     }
 
     public String getId() {
@@ -42,7 +42,7 @@ public class Order {
         return meal;
     }
 
-    public boolean getIsDone() {
+    public int getIsDone() {
         return isDone;
     }
 
@@ -66,7 +66,7 @@ public class Order {
         this.meal = meal;
     }
 
-    public void setIsDone(boolean isDone) {
+    public void setIsDone(int isDone) {
         this.isDone = isDone;
     }
 

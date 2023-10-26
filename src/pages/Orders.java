@@ -79,7 +79,7 @@ public class Orders extends JFrame implements ActionListener {
                 restaurant.setFont(font);
                 JLabel meal = new JLabel(orders.get(i).getMeal());
                 meal.setFont(font);
-                JLabel status = new JLabel(orders.get(i).getIsDone() ? bn.getString("orders.status.ready")
+                JLabel status = new JLabel(orders.get(i).getIsDone() == 0 ? bn.getString("orders.status.ready")
                         : bn.getString("orders.status.takeout"));
                 status.setFont(font);
                 body.add(date);

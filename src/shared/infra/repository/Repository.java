@@ -87,7 +87,7 @@ public class Repository implements IRepository {
             stmt.setString(3, order.getDate());
             stmt.setInt(4, order.getIdRestaurant());
             stmt.setString(5, order.getMeal());
-            stmt.setBoolean(6, order.getIsDone());
+            stmt.setInt(6, order.getIsDone());
             stmt.executeUpdate();
             System.out.println("Pedido criado com sucesso!");
             connection.commit();
@@ -185,7 +185,7 @@ public class Repository implements IRepository {
                     Order order = new Order(rs.getInt("id_restaurant"), rs.getString("id_client"),
                             rs.getString("meal"));
                     order.setId(rs.getString("id"));
-                    order.setIsDone(rs.getString("isdone").equals("1") ? true : false);
+                    order.setIsDone(Integer.valueOf(rs.getString("isdone")));
                     order.setDate(rs.getString("date"));
                     orders.add(order);
                 } while (rs.next());

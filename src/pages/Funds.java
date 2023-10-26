@@ -69,6 +69,8 @@ public class Funds extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, bn.getString("funds.message.success"),
                             bn.getString("funds.title.success"),
                             JOptionPane.INFORMATION_MESSAGE);
+                    client = repository.getClientByIdClient(this.IdClient);
+                    Home.client = client;
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, bn.getString("funds.message.error"),
