@@ -14,6 +14,7 @@ public class ServerSide {
     private static Socket client;
     private static Scanner input;
     private static PrintStream output;
+    private static Scanner scanner;
 
     public static void main(String[] args) {
         try {
@@ -46,29 +47,29 @@ public class ServerSide {
         while (input.hasNextLine()) {
             msg = messageFromClient();
             sendMessageToClient(msg);
-            input.nextLine();
+            // input.nextLine();
         }
     }
 
     private static String messageFromClient() throws IOException {
         String msg = input.nextLine();
-        System.out.println("Chegou do cliente:");
+        System.out.println("\n\nChegou do cliente:");
         System.out.println(msg);
         return msg;
     }
 
     private static void sendMessageToClient(String msg) throws IOException {
         System.out.println("Deseja confirmar o pedido? [S/N]");
-        input = new Scanner(System.in);
-        String resposta = input.nextLine();
-        if (resposta.equalsIgnoreCase("S")) {
+        scanner = new Scanner(System.in);
+        String response = scanner.nextLine();
+        if (response.equalsIgnoreCase("S")) {
             output.println("true");
             System.out.println("Enviado para o cliente: " + true);
         } else {
             output.println("false");
             System.out.println("Enviado para o cliente: " + false);
         }
-
+        System.out.println("\n");
     }
 
     private static void closeConnection() throws IOException {
@@ -77,6 +78,7 @@ public class ServerSide {
     }
 
     private static void closeServer() throws IOException {
+        scanner.close();
         server.close();
         System.out.println("Servidor finalizado!");
     }

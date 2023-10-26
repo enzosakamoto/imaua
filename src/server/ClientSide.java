@@ -17,21 +17,20 @@ public class ClientSide {
         input = new Scanner(client.getInputStream());
     }
 
-    public String serverToClient(String msg, String orderId) throws IOException {
+    public String serverToClient(String msg) throws IOException {
         String echo = "";
 
         if (!echo.equalsIgnoreCase("true") || !echo.equalsIgnoreCase("false")) {
-            sendToServer(msg, orderId);
+            sendToServer(msg);
             echo = messageReceived();
         }
 
         return echo;
     }
 
-    private void sendToServer(String msg, String orderId) throws IOException {
+    private void sendToServer(String msg) throws IOException {
         output = new PrintStream(client.getOutputStream());
         output.println(msg);
-        output.println(orderId);
         System.out.println("Enviado para o servidor: " + msg);
     }
 
