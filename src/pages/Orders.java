@@ -2,7 +2,6 @@ package pages;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,6 +25,7 @@ public class Orders extends JFrame implements ActionListener {
     private JLabel orders_title;
     private JButton quit;
     private JTable table;
+    private JScrollPane scrollPane;
     private static ResourceBundle bn = Home.bn;
 
     Object[] columns = {
@@ -43,8 +44,6 @@ public class Orders extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        Font font = new Font("Arial", Font.PLAIN, 22);
-
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
 
@@ -52,23 +51,22 @@ public class Orders extends JFrame implements ActionListener {
         header.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
         JPanel body = new JPanel(new GridLayout(1, 1));
 
-        DefaultTableModel tableModel = new DefaultTableModel(columns, columns.length);
-
-        table = new JTable(tableModel);
-
-        table.setFont(font);
+        DefaultTableModel tableModel = new DefaultTableModel(columns, columns.length) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // all cells false
+                return false;
+            }
+        };
 
         orders_title = new JLabel(bn.getString("orders.label.orders_title"));
-        orders_title.setFont(font);
         quit = new JButton(bn.getString("orders.button.quit"));
-        quit.setFont(font);
 
         header.add(orders_title);
         header.add(quit);
 
         if (orders.isEmpty()) {
             JLabel no_orders = new JLabel("                  " + bn.getString("orders.label.no_orders"));
-            no_orders.setFont(font);
             body.add(no_orders);
         } else {
             for (int i = 0; i < orders.size(); i++) {
@@ -82,13 +80,15 @@ public class Orders extends JFrame implements ActionListener {
                 String status = orders.get(i).getIsDone() == 0 ? bn.getString("orders.status.ready")
                         : bn.getString("orders.status.takeout");
 
-                table.setValueAt(date, i, 0);
-                table.setValueAt(restaurant, i, 1);
-                table.setValueAt(meal, i, 2);
-                table.setValueAt(status, i, 3);
+                tableModel.addRow(new Object[] { date, restaurant, meal, status });
             }
-            body.add(table);
         }
+
+        table = new JTable(tableModel);
+        scrollPane = new JScrollPane(table);
+
+        body.add(scrollPane);
+        body.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
 
         quit.addActionListener(this);
 
