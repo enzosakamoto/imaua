@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ServerSide {
+public class ServerSide extends Thread {
     public static final String IP = "127.0.0.1";
     public static final int PORT = 3334;
 
@@ -16,8 +16,13 @@ public class ServerSide {
     private static PrintStream output;
     private static Scanner scanner;
 
+    private static String lastOrderId;
+
     public static void main(String[] args) {
         try {
+            // Clear terminal
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
             startServer();
             waitClientConnection();
             clientConversation();
@@ -47,12 +52,16 @@ public class ServerSide {
         while (input.hasNextLine()) {
             msg = messageFromClient();
             sendMessageToClient(msg);
-            // input.nextLine();
         }
     }
 
     private static String messageFromClient() throws IOException {
         String msg = input.nextLine();
+        lastOrderId = msg.substring(msg.indexOf('|') + 2, msg.length());
+        // Clear terminal
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("lastOrderId: " + lastOrderId);
         System.out.println("\n\nChegou do cliente:");
         System.out.println(msg);
         return msg;
