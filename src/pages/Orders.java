@@ -51,7 +51,7 @@ public class Orders extends JFrame implements ActionListener {
         header.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
         JPanel body = new JPanel(new GridLayout(1, 1));
 
-        DefaultTableModel tableModel = new DefaultTableModel(columns, columns.length) {
+        DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // all cells false
