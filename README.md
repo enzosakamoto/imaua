@@ -14,9 +14,9 @@ O tema escolhido foi desenvolver um sistema inspirado no IFood, que pudesse real
 
 O sistema se baseia em um banco de dados de usuários e pedidos feitos. Cada usuário tem um login único e cada pedido de usuário está atrelado ao mesmo. A interface foi criado utilizando a próprio biblioteca do Java para criação de janelas.
 
-## Diagrama para organização do banco de dados 😁
+## Diagrama para organização do banco de dados 🎲
 
-![image](https://github.com/enzosakamoto/imaua/assets/98707474/55d1e551-72c6-463a-bd86-664f9e659d5c)
+<img width="1322" alt="image" src="https://github.com/enzosakamoto/imaua/assets/98707474/9b687786-15e4-4102-b5ac-91d5967b43e8">
 
 ## Banco de dados 🪑🎲
 
