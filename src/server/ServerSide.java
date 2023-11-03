@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ServerSide extends Thread {
+public class ServerSide {
     public static final String IP = "127.0.0.1";
     public static final int PORT = 3334;
 
@@ -74,6 +74,7 @@ public class ServerSide extends Thread {
         if (response.equalsIgnoreCase("S")) {
             output.println("true");
             System.out.println("Enviado para o cliente: " + true);
+            new OrderThread(lastOrderId).start();
         } else {
             output.println("false");
             System.out.println("Enviado para o cliente: " + false);
