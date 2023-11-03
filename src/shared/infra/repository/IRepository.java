@@ -18,7 +18,7 @@ public interface IRepository {
 
     public ArrayList<Order> getAllOrdersByIdClient(String IdClient) throws Exception;
 
-    public void updateStatusOrderByOrderId(String orderId, boolean isDone) throws Exception;
+    public void updateStatusOrderByOrderId(String orderId, int status) throws Exception;
 
     public void updateClientCreditsByIdClient(String clientId, double credits) throws Exception;
 }

@@ -77,7 +77,7 @@ public class Orders extends JFrame implements ActionListener {
                                         : (orders.get(i)
                                                 .getIdRestaurant() == 3) ? "Tech Food" : "Error";
                 String meal = orders.get(i).getMeal();
-                String status = orders.get(i).getIsDone() == 0 ? bn.getString("orders.status.ready")
+                String status = orders.get(i).getIsDone() == 0 ? bn.getString("orders.status.waiting")
                         : bn.getString("orders.status.takeout");
 
                 tableModel.addRow(new Object[] { date, restaurant, meal, status });

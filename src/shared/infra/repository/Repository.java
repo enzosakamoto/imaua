@@ -199,7 +199,7 @@ public class Repository implements IRepository {
         }
     }
 
-    public void updateStatusOrderByOrderId(String orderId, boolean isDone) throws SQLException {
+    public void updateStatusOrderByOrderId(String orderId, int status) throws SQLException {
         System.out.println("Order updated");
     }
 
