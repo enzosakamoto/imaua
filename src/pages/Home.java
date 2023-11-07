@@ -149,14 +149,14 @@ public class Home extends JFrame implements ActionListener {
         }
 
         if (e.getSource() == add_credits) {
-            Funds add_credits = new Funds();
+            Funds add_credits = new Funds(bn);
             add_credits.setVisible(true);
         }
 
         if (e.getSource() == orders) {
             try {
                 ArrayList<Order> orders_array = repository.getAllOrdersByIdClient(client.getId());
-                Orders orders = new Orders(orders_array);
+                Orders orders = new Orders(orders_array, bn);
                 orders.setVisible(true);
             } catch (Exception exception) {
                 System.out.println(exception.getMessage());

@@ -26,11 +26,13 @@ public class Funds extends JFrame implements ActionListener {
     private Repository repository = new Repository(bn);
     private String IdClient = Home.client.getId();
 
-    public Funds() {
+    public Funds(ResourceBundle bnHome) {
         super(bn.getString("funds.title"));
         setSize(340, 120);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        bn = bnHome;
 
         Container container = getContentPane();
         container.setLayout(new FlowLayout());
