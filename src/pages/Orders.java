@@ -28,21 +28,22 @@ public class Orders extends JFrame implements ActionListener {
     private JScrollPane scrollPane;
     private static ResourceBundle bn = Home.bn;
 
-    Object[] columns = {
-            bn.getString("orders.label.date"),
-            bn.getString("orders.label.restaurant"),
-            bn.getString("orders.label.meal"),
-            bn.getString("orders.label.status")
-    };
-
-    public Orders(ArrayList<Order> orders) {
+    public Orders(ArrayList<Order> orders, ResourceBundle homeBn) {
         super(bn.getString("orders.title"));
         this.orders = orders;
+        bn = homeBn;
         Collections.sort(this.orders, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
         setSize(750, 500);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        Object[] columns = {
+                bn.getString("orders.label.date"),
+                bn.getString("orders.label.restaurant"),
+                bn.getString("orders.label.meal"),
+                bn.getString("orders.label.status")
+        };
 
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
@@ -77,7 +78,7 @@ public class Orders extends JFrame implements ActionListener {
                                         : (orders.get(i)
                                                 .getIdRestaurant() == 3) ? "Tech Food" : "Error";
                 String meal = orders.get(i).getMeal();
-                String status = orders.get(i).getIsDone() == 0 ? bn.getString("orders.status.ready")
+                String status = orders.get(i).getIsDone() == 0 ? bn.getString("orders.status.waiting")
                         : bn.getString("orders.status.takeout");
 
                 tableModel.addRow(new Object[] { date, restaurant, meal, status });

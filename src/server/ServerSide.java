@@ -16,8 +16,13 @@ public class ServerSide {
     private static PrintStream output;
     private static Scanner scanner;
 
+    private static String lastOrderId;
+
     public static void main(String[] args) {
         try {
+            // Clear terminal
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
             startServer();
             waitClientConnection();
             clientConversation();
@@ -47,12 +52,16 @@ public class ServerSide {
         while (input.hasNextLine()) {
             msg = messageFromClient();
             sendMessageToClient(msg);
-            // input.nextLine();
         }
     }
 
     private static String messageFromClient() throws IOException {
         String msg = input.nextLine();
+        lastOrderId = msg.substring(msg.indexOf('|') + 2, msg.length());
+        // Clear terminal
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("lastOrderId: " + lastOrderId);
         System.out.println("\n\nChegou do cliente:");
         System.out.println(msg);
         return msg;
@@ -65,6 +74,7 @@ public class ServerSide {
         if (response.equalsIgnoreCase("S")) {
             output.println("true");
             System.out.println("Enviado para o cliente: " + true);
+            new OrderThread(lastOrderId).start();
         } else {
             output.println("false");
             System.out.println("Enviado para o cliente: " + false);

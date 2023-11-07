@@ -22,6 +22,9 @@ public class Order {
         this.isDone = 0;
     }
 
+    public Order() {
+    }
+
     public String getId() {
         return id;
     }

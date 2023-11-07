@@ -199,8 +199,54 @@ public class Repository implements IRepository {
         }
     }
 
-    public void updateStatusOrderByOrderId(String orderId, boolean isDone) throws SQLException {
-        System.out.println("Order updated");
+    public Order getOrderByOrderId(String orderId) throws SQLException {
+        String sqlGetClient = "SELECT * FROM orders WHERE (id = ?);";
+        Connection connection = Connector.getConn();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = connection.prepareStatement(sqlGetClient);
+            stmt.setString(1, orderId);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                Order order = new Order();
+                order.setId(rs.getString("id"));
+                order.setIdClient(rs.getString("id_client"));
+                order.setIdRestaurant(rs.getInt("id_restaurant"));
+                order.setDate(rs.getString("date"));
+                order.setMeal(rs.getString("meal"));
+                order.setIsDone(Integer.valueOf(rs.getString("isdone")));
+                return order;
+            }
+            throw new SQLException();
+        } catch (SQLException ex) {
+            throw new SQLException("Pedido não encontrado!");
+        } finally {
+            Connector.closeConn(connection, stmt);
+        }
+    }
+
+    public void updateOrderStatusByOrderId(String orderId, int status) throws SQLException {
+        String sqlUpdateOrderStatus = "UPDATE orders SET isdone = ? WHERE id = ?;";
+        Connection connection = Connector.getConn();
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(sqlUpdateOrderStatus);
+            stmt.setInt(1, status);
+            stmt.setString(2, orderId);
+            stmt.executeUpdate();
+            System.out.println("Pedido atualizado com sucesso!");
+            connection.commit();
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+                System.out.println(e.getMessage());
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } finally {
+            Connector.closeConn(connection, stmt);
+        }
     }
 
     public void updateClientCreditsByIdClient(String clientId, double credits) throws SQLException {
