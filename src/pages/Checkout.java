@@ -166,7 +166,8 @@ public class Checkout extends JFrame implements ActionListener {
                     } else {
                         JOptionPane.showMessageDialog(null,
                                 bn.getString("checkout.failed.purchase"),
-                                bn.getString("funds.title.error"), JOptionPane.ERROR_MESSAGE);
+                                bn.getString("funds.title.error"),
+                                JOptionPane.ERROR_MESSAGE);
                     }
 
                     this.dispose();

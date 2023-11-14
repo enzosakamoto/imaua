@@ -168,7 +168,7 @@ public class Home extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, bn.getString("home.without.login"), "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
-                this.dispose();
+
                 RestaurantPage restaurant_page = new RestaurantPage(0, bn);
                 restaurant_page.setVisible(true);
             }
