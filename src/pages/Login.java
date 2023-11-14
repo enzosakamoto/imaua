@@ -128,7 +128,7 @@ public class Login extends JFrame implements ActionListener {
                 Home.client = client;
                 Home home = new Home();
                 home.setVisible(true);
-                this.setVisible(false);
+                this.dispose();
             } catch (SQLException error) {
                 JOptionPane.showMessageDialog(null, error.getMessage(), "Erro!",
                         JOptionPane.ERROR_MESSAGE);
