@@ -165,8 +165,8 @@ public class Checkout extends JFrame implements ActionListener {
                         }
                     } else {
                         JOptionPane.showMessageDialog(null,
-                                "Pedido não confirmado pelo restaurante!",
-                                "Pedido cancelado", JOptionPane.ERROR_MESSAGE);
+                                bn.getString("checkout.failed.purchase"),
+                                bn.getString("funds.title.error"), JOptionPane.ERROR_MESSAGE);
                     }
 
                     this.dispose();
