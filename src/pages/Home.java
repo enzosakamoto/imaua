@@ -165,9 +165,10 @@ public class Home extends JFrame implements ActionListener {
 
         if (e.getSource() == restaurant_moleza) {
             if (client == null) {
-                JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
+                JOptionPane.showMessageDialog(null, bn.getString("home.without.login"), "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
+                this.dispose();
                 RestaurantPage restaurant_page = new RestaurantPage(0, bn);
                 restaurant_page.setVisible(true);
             }
@@ -175,9 +176,10 @@ public class Home extends JFrame implements ActionListener {
 
         if (e.getSource() == restaurant_biba) {
             if (client == null) {
-                JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
+                JOptionPane.showMessageDialog(null, bn.getString("home.without.login"), "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
+                this.dispose();
                 RestaurantPage restaurant_page = new RestaurantPage(1, bn);
                 restaurant_page.setVisible(true);
             }
@@ -185,7 +187,7 @@ public class Home extends JFrame implements ActionListener {
 
         if (e.getSource() == restaurant_techfood) {
             if (client == null) {
-                JOptionPane.showMessageDialog(null, "Faça login primeiro!", "Aviso",
+                JOptionPane.showMessageDialog(null, bn.getString("home.without.login"), "Aviso",
                         JOptionPane.INFORMATION_MESSAGE);
             } else {
                 this.dispose();
